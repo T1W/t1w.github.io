@@ -1,0 +1,68 @@
+@charset "UTF-8";
+
+html {
+	background-color:#fedcdc
+}
+body {
+	margin:0px;
+}
+main {
+	margin:10px;
+}
+.center {
+	text-align:center
+}
+.a {
+	text-indent: 50px;
+	font-size:18px
+}
+#title {
+	margin-left:auto;
+	margin-right:auto;
+	display:block;
+	margin-bottom: 5px;
+}
+#top {
+	height: 150px;
+	background-image: url(../images/aspiondbannerpart.png);
+	background-position: center;
+	background-size: auto 100%;
+	background-repeat: repeat-x;
+}
+#banner {
+	height: 150px;
+	background-image: url(../images/aspiondbanner.png);
+	background-position: center;
+	background-size: auto 100%;
+	background-repeat: no-repeat;
+}
+.horizlist {
+	width:100%;
+	background-color:#e65454;
+	text-align:center;
+	font-size:0;
+}
+.horizlist a {
+	color:white;
+	text-decoration:none;
+	font-size:1rem;
+	display:inline-block;
+	width:140px;
+	padding:1px;
+}
+.horizlist a:hover {
+	background-color:#c82121;
+}
+.hrred {
+	color:#ffaaaa;
+}
+
+.sbutton {
+	font-size: 18px;
+}
+
+.sbuttonred {
+	border: 2px solid #aa2222;
+	background: linear-gradient(#ffcccc, #ff7777);
+	color: #aa2222;
+}

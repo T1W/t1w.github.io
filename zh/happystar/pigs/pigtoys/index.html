@@ -1,0 +1,122 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<link href = "../../../../images/pigs/bigpig.png" rel="icon"><link>
+<title> Happy✳ *玩具猪*</title>
+
+<link rel="stylesheet" type="text/css" href="../../../../styles/style.css">
+<link rel="stylesheet" type="text/css" href="../../../../styles/happystar/style.css">
+
+<style>
+#bigpigr {float:left; margin-right:10px; margin-bottom:0px}
+#flypigr {float:left; margin-right:20px}
+#newpigr {float:left; margin-right:20px}
+#yumpigr {float:left; margin-right:20px}
+
+.sbutton {position:absolute; right:10px;}
+
+</style>
+
+</head>
+
+<body>
+<div class="top">
+<center>
+<img src="../../../../images/pigs/bigpig.png" alt="squishables pig toy" style= "width:100px; height:120px" id="oink">
+<span class="title"> Happy✳ </span>
+</center>
+</div>
+
+<hr class="linepink">
+<div style="position:relative">
+<a href="../index.html"><button class="backbutton backbcyan" style="margin-top:0px"> &lt;- 返回</button></a>
+
+<h1 class="titleblue">玩具猪</h1>
+</div>
+<hr class ="lineblue">
+
+<a href="bigpig.html"><button class="sbutton sblime l" style="height:50px">大猪的介绍</button></a>
+<h2 class="pink moreinfotitle" id="dazhu">大猪</h2> 
+
+<div style="overflow: auto;">
+<img src="../../../../images/pigs/bigpig.png" alt="squishables 玩具猪" style="width:150px; height:180px" id="bigpigr" onclick="changeBig()" title="Oink Oink!">
+
+<p class="a">大猪本来是的最大的猪！但是现在有更大的猪了(巨猪)。大猪是一个很软的猪玩具, 她的形状是圆的。大猪特别喜欢跟他的朋友玩一个游戏叫"Bouncing Pig"。大猪一般不会赢，因为他太软了。</p>
+
+</div>
+
+<hr class="lineblue">
+
+<h2 class="blue moreinfotitle" id="feizhu">飞猪</h2>
+
+<div style="overflow: auto;">
+<img src="../../../../images/pigs/flypig.png" alt = "squishables 飞猪玩具" style="width:180px; height:156px" id="flypigr" onclick="changeFly()" title="Oink! 我喜欢飞!">
+
+<p class="a">有一个小飞猪，也有一个大飞猪。小飞猪是先买的。小飞猪觉得每天都很没劲, 他一直要被别的猪吃掉。但是有一些时候，他也会出去玩。飞猪比大猪小，但是他比小粉红猪大。飞猪在床上弹得比大猪高。</p>
+
+</div>
+
+<hr class="lineblue">
+
+<h2 class="pink moreinfotitle" id="xinzhu">新猪</h2>
+
+<div style="overflow: auto;">
+<img src="../../../../images/pigs/hyperpiggy4972153.png" alt="bright starts pretty in pink pull and play pig 和彩虹钻石" style="width:150px; height:150px" id="newpigr" onmouseover="d()" onmouseout ="e()" title="我很发光！">
+
+<p class="a"> 新猪是一个"Bright Starts Pretty and Pink Pull and Play pig". 她也是一个"hyperpig"。 新猪很喜欢吃钻石。 新猪出去玩的次数比别的猪更多。在家里，新猪会跟别的<span class="aN" title="Bright Starts Pretty in Pink Pull and Play Pigs">小粉红猪</span>玩.</p>
+<p class="a">在秋天春天，新猪会去猪猪学校！新猪是最聪明的猪。</p>
+
+</div>
+
+<hr class="lineblue">
+
+<h2 class="blue" id="haochi">好吃的小猪猪和我们的猪</h2>
+<div style="overflow: auto;">
+<img src="../../../../images/pigs/yummyPIG.png" alt="blue mushabelly pig" title="Yammy." style="width:170px; height:"220px" id="yumpigr">
+
+<p class="a">有两个蓝猪, 他们是好吃的小猪猪和我们的猪。"好吃的小猪猪"的短称是"好吃"。好吃和我们的猪都是"mushabelly pigs"。好吃是一个很好吃的猪。别的猪喜欢把他压成一个<span class="aN" title="pancake">"饼"</span>。</p>
+<p class="a">我们的猪是另外一个蓝猪。他只会说 "VuhvuhVuhvuhvuhvuhvuh!"</p>
+
+</div>
+
+<hr class="linepink">
+<span>这网页可能是2016-2018年做的</span>
+<hr class="linepink">
+
+<div class="topdown">
+
+<img src="../../../../images/partcloudy.png" alt="太阳和灰云" style="width:200px; height:200px" class="l"><img src="../../../../images/pigs/flypig.png" alt="squishables 飞猪玩具" style = "width:150px; height:130px" class="rf">
+</div><div class="topmid"></div>
+<script>
+var clicks=0;
+var klick=0;
+function changeBig() {
+	if (clicks==0) {
+		document.getElementById("bigpigr").src='../../../../images/pigs/bigpigoink.png';
+		clicks=1;
+	} else if (clicks==1) {
+		document.getElementById("bigpigr").src='../../../../images/pigs/bigpig.png';
+		clicks=0;
+	}
+}
+
+function changeFly() {
+	if (klick==0) {
+		document.getElementById("flypigr").src='../../../../images/pigs/flypigoink.png';
+		klick=1;
+	} else if (klick==1) {
+		document.getElementById("flypigr").src='../../../../images/pigs/flypig.png';
+		klick=0;
+	}
+}
+
+function d() {
+document.getElementById("newpigr").src='../../../../images/pigs/hyperpiggy4972152.png';
+}
+function e() {
+document.getElementById("newpigr").src='../../../../images/pigs/hyperpiggy4972153.png'
+}
+</script>
+
+</body>
+</html>

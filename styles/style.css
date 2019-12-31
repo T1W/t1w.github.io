@@ -1,0 +1,11 @@
+@charset "UTF-8";
+
+.l {
+	float:right
+}
+.r {
+	float:left
+}
+.hover {
+	text-decoration: underline dotted
+}
