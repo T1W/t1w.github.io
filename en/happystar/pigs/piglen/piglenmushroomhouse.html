@@ -1,0 +1,393 @@
+<html><head>
+<title> PIGLEN!</title>
+<style> body {margin:0;} canvas {width:100%; height:100%} </style>
+</head> <body> <script src ="resources/three.min.js"></script>
+<script src="resources/newpig.js"></script>
+<script src="resources/diamond.js"></script>
+<script src="resources/tween.min.js"></script>
+
+<div style="margin:5px 0px 0px 5px; min-height:100px; max-width:300px; min-width:150px; position:absolute; word-wrap: break-word;background-color: rgba(255,255,255,0.2)">
+<p style="margin:3px;">X:<span id="iamx"> X</span></p>
+<p style="margin:3px;">Y:<span id="iamy"> Y</span></p>
+<p style="margin:3px;">Z:<span id="iamz"> Z</span></p>
+<p style="margin:3px;">y:<span id="iamry"> y</span></p>
+<p style="margin:3px;">x:<span id="iamrx"> x</span></p>
+<p style="margin:3px;">L:<span id="iaml">L</span></p>
+</div>
+<script>
+var scene = new THREE.Scene();
+var camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 10000);
+camera.position.y = 158;
+camera.position.z = 0;
+camera.position.x = 0;
+camera.rotation.x = -Math.PI/2;
+camera.eulerOrder = "ZYX";
+var light = new THREE.PointLight(0xffFFfF, 0.3, 1000, 2);
+light.position.set(camera.position.x, camera.position.y, camera.position.z);
+scene.add(light);
+var light2 = new THREE.PointLight(0xFFFfff, 0.0, 10000);
+light2.position.set(500, 0,0);
+scene.add(light2);
+var hlight = new THREE.HemisphereLight(0xFFFFfF, 0xFFFFfF, 0.8);
+scene.add(hlight);
+var renderer = new THREE.WebGLRenderer();
+renderer.setSize(window.innerWidth, window.innerHeight);
+document.body.appendChild(renderer.domElement);
+
+var skybg = new THREE.TextureLoader().load("resources/tansky.jpg");
+var skymaterial = new THREE.MeshLambertMaterial({map:skybg, side:THREE.BackSide});
+var Skysphere = new THREE.SphereGeometry(5000, 64, 32);
+var skydome = new THREE.Mesh(Skysphere, skymaterial);
+scene.add(skydome);
+
+var grassbg = new THREE.TextureLoader().load("resources/grassground.jpg");
+grassbg.wrapS = THREE.RepeatWrapping;
+grassbg.wrapT = THREE.RepeatWrapping;
+grassbg.repeat.set(500,500);
+var grassmaterial = new THREE.MeshLambertMaterial({map:grassbg});
+var grassplane = new THREE.PlaneGeometry(10000, 10000);
+var grassground = new THREE.Mesh(grassplane, grassmaterial);
+grassground.rotation.x = -Math.PI/2;
+scene.add(grassground);
+grassground.name = "grassground";
+
+var beachball = new THREE.TextureLoader().load("resources/BeachBallColor2.jpg");
+var ballcolor = new THREE.MeshLambertMaterial({map:beachball});
+var sphere = new THREE.SphereGeometry(3, 64, 32);
+var lightcolor = new THREE.MeshLambertMaterial({color:0xccffff});
+var Sphere = new THREE.Mesh(sphere, ballcolor);
+Sphere.position.set(20, 5, 20);
+scene.add(Sphere);
+
+var raycaster = new THREE.Raycaster();
+
+document.onkeydown = function(e) {
+  if(e.keyCode === 37) { // left
+    camera.rotation.y += Math.PI/90;
+  }
+  if(e.keyCode === 39) { //right
+    camera.rotation.y -= Math.PI/90;
+  }
+  if(e.keyCode === 38) { //up
+    raycaster.set(camera.position, new THREE.Vector3(-Math.sin(camera.rotation.y),0,-Math.cos(camera.rotation.y)));
+    var intersects = raycaster.intersectObjects(scene.children,true);
+    if(intersects.length == 0 || intersects[0].distance>=4) {
+      camera.position.z -= 2*Math.cos(camera.rotation.y);
+      camera.position.x -= 2*Math.sin(camera.rotation.y);
+    }
+  }
+  if(e.keyCode === 40) { //down
+    raycaster.set(camera.position, new THREE.Vector3(Math.sin(camera.rotation.y),0,Math.cos(camera.rotation.y)));
+    var intersects = raycaster.intersectObjects(scene.children,true);
+    if(intersects.length == 0 || intersects[0].distance>=4) {
+      camera.position.z += 2*Math.cos(camera.rotation.y);
+      camera.position.x += 2*Math.sin(camera.rotation.y);
+    }
+  }
+  if(e.keyCode === 81) {
+    if(camera.rotation.x<Math.PI/2) camera.rotation.x += Math.PI/90;
+  }
+  if(e.keyCode === 65) {
+    if(camera.rotation.x>-Math.PI/2)camera.rotation.x -= Math.PI/90;
+  }
+  if(e.keyCode === 90) { 
+    raycaster.set(camera.position, new THREE.Vector3(-Math.cos(camera.rotation.y),0,Math.sin(camera.rotation.y)));
+    var intersects = raycaster.intersectObjects(scene.children,true);
+    if(intersects.length == 0 || intersects[0].distance>=4) {
+      camera.position.x -= 2*Math.cos(camera.rotation.y);
+      camera.position.z += 2*Math.sin(camera.rotation.y);
+    }
+  }
+  if(e.keyCode === 88) { 
+    raycaster.set(camera.position, new THREE.Vector3(Math.cos(camera.rotation.y),0,-Math.sin(camera.rotation.y)));
+    var intersects = raycaster.intersectObjects(scene.children,true);
+    if(intersects.length == 0 || intersects[0].distance>=4) {
+      camera.position.x += 2*Math.cos(camera.rotation.y);
+      camera.position.z -= 2*Math.sin(camera.rotation.y);
+    }
+  }
+  if(e.keyCode === 87) {
+    raycaster.set(camera.position, new THREE.Vector3(0,1,0));
+    var intersects = raycaster.intersectObjects(scene.children,true);
+    if(intersects.length == 0 || intersects[0].distance>=4) {
+      camera.position.y +=2;
+    }
+  }
+  if(e.keyCode === 83) {
+    raycaster.set(camera.position, new THREE.Vector3(0,-1,0));
+    var intersects = raycaster.intersectObjects(scene.children,true);
+    if(intersects.length == 0 || intersects[0].distance>=4) {
+      if(camera.position.y>2) {
+        camera.position.y -=2;
+      }
+    }
+  }
+light.position.set(camera.position.x, camera.position.y, camera.position.z);
+}
+
+var MHouseStem = new THREE.CylinderGeometry(50,50,65,32,1, true, 0.2, Math.PI/90*170);
+var Mhscolor = new THREE.MeshLambertMaterial({color:0xffe5bf, side:THREE.DoubleSide});
+var MushroomHouse = new THREE.Mesh(MHouseStem, Mhscolor);
+MushroomHouse.position.set(0, 32.5, 0);
+scene.add(MushroomHouse); 
+
+var woodfloor = new THREE.TextureLoader().load("resources/woodfloor.jpg");
+var woodenfloor = new THREE.MeshLambertMaterial({map:woodfloor});
+var mhousefloor = new THREE.CircleGeometry(49.9, 32);
+var mushhousefloor = new THREE.Mesh(mhousefloor, woodenfloor);
+mushhousefloor.rotation.x = -Math.PI/2;
+mushhousefloor.position.y=-32;
+MushroomHouse.add(mushhousefloor);
+mushhousefloor.name = "mushhousefloor";
+
+var MHouseStem2 = new THREE.CylinderGeometry(50,50,31,32,1, true, -0.15, Math.PI/90*10.1);
+var mushhousepart = new THREE.Mesh(MHouseStem2, Mhscolor);
+mushhousepart.position.set(0, 17, 0);
+MushroomHouse.add(mushhousepart);
+
+var brown=new THREE.MeshLambertMaterial({color:0xaa5711});
+
+var MHousecap1 = new THREE.SphereGeometry(80, 32, 32, 0, Math.PI);
+var mhccolor = new THREE.MeshLambertMaterial({color:0xff689c, side:THREE.DoubleSide});
+var mhousecap = new THREE.Mesh(MHousecap1, mhccolor);
+mhousecap.position.set(0, 32.5, 0);
+mhousecap.rotation.x = -Math.PI/2;
+MushroomHouse.add(mhousecap);
+
+var MHOUSEcap2 = new THREE.TorusGeometry(52,28,16,100);
+var mhccolor2 = new THREE.MeshLambertMaterial({color:0xff96ba,side:THREE.DoubleSide});
+var mhousecap2 = new THREE.Mesh(MHOUSEcap2, mhccolor2);
+mhousecap2.scale.z = 0.1;
+mhousecap.scale.z = 1.2;
+mhousecap.add(mhousecap2);
+
+
+var mhlampbase = new THREE.CylinderGeometry(8,8,1,32,1);
+var mhlampsilvgray = new THREE.MeshPhongMaterial({color:0xadadad, side:THREE.DoubleSide});
+var mhlamp = new THREE.Mesh(mhlampbase, mhlampsilvgray);
+mhlamp.position.set(0,1,0);
+
+var mhlampole = new THREE.CylinderGeometry(1,1,30,32,1);
+var mhlamppole = new THREE.Mesh(mhlampole, mhlampsilvgray);
+mhlamppole.position.set(0,15,0);
+mhlamppole.name = "mhlamppole";
+
+var mhlamptop = new THREE.CylinderGeometry(10,1,7,32,1,true);
+var mhlswhite = new THREE.MeshLambertMaterial({color:0xffffff,transparent:true,opacity:0.5,side:THREE.DoubleSide});
+var mhlampshade = new THREE.Mesh(mhlamptop,mhlswhite);
+mhlampshade.position.set(0,33.5,0);
+mhlamp.add(mhlampshade);
+mhlampshade.name = "mhlampshade";
+
+var mhlbulb = new THREE.SphereGeometry(1.5,32,16);
+var mhlbyellow = new THREE.MeshPhongMaterial({color:0xffdf98,transparent:true,opacity:0.2});
+var mhlampbulb = new THREE.Mesh(mhlbulb, mhlbyellow);
+mhlampbulb.position.set(0,0,0);
+mhlampshade.add(mhlampbulb);
+mhlampbulb.name = "mhlampbulb";
+
+var mhlight = new THREE.PointLight(0xffffcc, 0, 200);
+mhlight.position.set(0,1.6,0);
+mhlampbulb.add(mhlight);
+mhlight.name = "mhlight";
+
+mhlamp.add(mhlamppole);
+mhlamp.name = "mhlamp";
+mhlamp.position.set(-20,-32,-20);
+MushroomHouse.add(mhlamp);
+
+
+var ladderpole = new THREE.CylinderGeometry(1,1,64,32,1);
+var ladderpink = new THREE.MeshPhongMaterial({color:0xffcde9});
+var ladderpole1 = new THREE.Mesh(ladderpole,ladderpink);
+ladderpole1.position.set(-6,0,-25);
+MushroomHouse.add(ladderpole1);
+
+var ladderpole2 = ladderpole1.clone();
+ladderpole2.position.set(12,0,0);
+ladderpole1.add(ladderpole2);
+
+var ladderpoles = new THREE.CylinderGeometry(1,1,12,32,1);
+
+for(var l = 0; l<6;l++) {
+var ladderparts = new THREE.Mesh(ladderpoles,ladderpink);
+ladderparts.rotation.z = Math.PI/2;
+ladderparts.position.set(6,l*10-25,0);
+ladderpole1.add(ladderparts);
+}
+
+var MushroomHouse2 = MushroomHouse.clone();
+MushroomHouse2.position.set(200,32.5,0);
+scene.add(MushroomHouse2);
+MushroomHouse2.name = "MushroomHouse2";
+
+var NEWPIG = createNEWPIG();
+NEWPIG.position.y = 7;
+NEWPIG.position.x = 20;
+scene.add(NEWPIG);
+
+var diamondgreen = creatediamond("resources/circly.jpg");
+diamondgreen.position.set(49,43.2,-19);
+diamondgreen.scale.set(0.5,0.5,0.5);
+diamondgreen.rotation.x = -Math.PI/180*41;
+MushroomHouse.add(diamondgreen);
+
+var diamondflower = creatediamond("resources/flower.jpg");
+diamondflower.position.set(50,45.5,12);
+diamondflower.scale.set(0.5,0.5,0.5);
+MushroomHouse.add(diamondflower);
+
+var diamondcloud = creatediamond("resources/cloud2.jpg");
+diamondcloud.position.set(30.5,45.5,-44.5);
+diamondcloud.scale.set(0.5,0.5,0.5);
+MushroomHouse.add(diamondcloud);
+
+var diamondpink = creatediamond("resources/clouds.jpg");
+diamondpink.position.set(28,43.2,41);
+diamondpink.scale.set(0.5,0.5,0.5);
+diamondpink.rotation.z = Math.PI/180*41;
+MushroomHouse.add(diamondpink);
+
+var mhtablewoodbg = new THREE.TextureLoader().load("resources/wood2.jpg");
+var mhtablewood = new THREE.MeshLambertMaterial({map:mhtablewoodbg});
+var MHtablebottom = new THREE.CylinderGeometry(5,5,0.7,32,1);
+var mhtable = new THREE.Mesh(MHtablebottom,mhtablewood);
+mhtable.position.set(-18,-31.5,24.5);
+
+var mhtabpole = new THREE.CylinderGeometry(0.9,0.9,13,32,1);
+var mhtablepole = new THREE.Mesh(mhtabpole,mhtablewood);
+mhtablepole.position.set(0,6.4,0);
+mhtable.add(mhtablepole);
+
+var mhtabletop = new THREE.CylinderGeometry(11,11,1,32,1);
+var mhtabletop1 = new THREE.Mesh(mhtabletop,mhtablewood);
+mhtabletop1.position.set(0,13,0);
+mhtable.add(mhtabletop1);
+
+MushroomHouse.add(mhtable);
+
+var mhpicbox = new THREE.BoxGeometry(15,11,0.5);
+var mhframesilver = new THREE.MeshPhongMaterial({color:0xff689c});
+var mhpicframe = new THREE.Mesh(mhpicbox,mhframesilver);
+mhpicframe.position.set(-47,5,5);
+mhpicframe.rotation.y = Math.PI/2;
+
+var mhpicplane = new THREE.PlaneGeometry(13,9);
+var mhpicture1 = new THREE.TextureLoader().load("resources/piggy2.jpg");
+var mhpic1 = new THREE.MeshLambertMaterial({map:mhpicture1});
+var mhpicture1s = new THREE.Mesh(mhpicplane,mhpic1);
+mhpicture1s.position.set(0,0,0.3);
+mhpicframe.add(mhpicture1s);
+
+var mhpicbox2 = new THREE.BoxGeometry(19,10,0.5);
+var mhpicframe2 = new THREE.Mesh(mhpicbox2,mhframesilver);
+mhpicframe2.position.set(43.5,6,-19);
+mhpicframe2.rotation.y = -Math.PI/180*70;
+
+var mhpicplane2 = new THREE.PlaneGeometry(17,8);
+var mhpicture2 = new THREE.TextureLoader().load("resources/piggyeating.jpg");
+var mhpic2 = new THREE.MeshLambertMaterial({map:mhpicture2});
+var mhpicture2s = new THREE.Mesh(mhpicplane2,mhpic2);
+mhpicture2s.position.set(0,0,0.3);
+mhpicframe2.add(mhpicture2s);
+
+MushroomHouse.add(mhpicframe);
+MushroomHouse.add(mhpicframe2);
+
+var mhbedbottom = new THREE.BoxGeometry(25,6,45);
+var mhbedwhitish = new THREE.MeshLambertMaterial({color:0xfcfcfc});
+var mhbed = new THREE.Mesh(mhbedbottom,mhbedwhitish);
+mhbed.position.set(-46,41,0);
+
+var mhbedleg = new THREE.CylinderGeometry(0.75,0.75,3,32,1);
+var mhbedleg1 = new THREE.Mesh(mhbedleg,brown);
+mhbedleg1.position.set(11.5,-4.5,21.5);
+mhbed.add(mhbedleg1);
+
+var mhbedleg2 = mhbedleg1.clone();
+mhbedleg2.position.set(-11.5,-4.5,21.5);
+mhbed.add(mhbedleg2);
+
+var mhbedleg3 = mhbedleg1.clone();
+mhbedleg3.position.set(-11.5,-4.5,-21.5);
+mhbed.add(mhbedleg3);
+
+var mhbedleg4 = mhbedleg1.clone();
+mhbedleg4.position.set(11.5,-4.5,-21.5);
+mhbed.add(mhbedleg4);
+
+var mhbedblanket = new THREE.BoxGeometry(24,1,31);
+var mhbedblue = new THREE.MeshLambertMaterial({color:0x78d1eb});
+var mhbedblanket1 = new THREE.Mesh(mhbedblanket,mhbedblue);
+mhbedblanket1.position.set(0,3.2,6.5);
+mhbed.add(mhbedblanket1);
+
+var mhbedpillow = new THREE.CylinderGeometry(6,6,20,32,1);
+var mhbedpillowcolor = new THREE.MeshPhongMaterial({color:0xfdfdfd});
+var mhbedspillow = new THREE.Mesh(mhbedpillow,mhbedpillowcolor);
+mhbedspillow.position.set(0,5,-16);
+mhbedspillow.scale.x = 0.4;
+mhbedspillow.rotation.z = Math.PI/2;
+mhbed.add(mhbedspillow);
+
+MushroomHouse.add(mhbed);
+
+document.onclick = function(e) {
+  var mouse = new THREE.Vector2( (e.clientX/window.innerWidth)*2-1, -(e.clientY/window.innerHeight)*2+1);
+  raycaster.setFromCamera(mouse,camera);
+
+  var lamparray = [mhlampshade,MushroomHouse2.children[3].children[0]];
+  var intersects = raycaster.intersectObjects(lamparray);
+  //console.log(intersects[0].object.children[0].children[0].intensity);
+  if(intersects.length>0) {
+    var mhmhlight = intersects[0].object.children[0].children[0];
+    if(mhmhlight.intensity>0) {
+      mhmhlight.intensity = 0;      
+    } else {
+      mhmhlight.intensity = 1;
+    }
+  }
+
+}
+
+new TWEEN.Tween(hlight).to({intensity:0},600000).repeat(Infinity).yoyo(true).easing(TWEEN.Easing.Cubic.InOut).start();
+
+var render = function () {
+TWEEN.update();
+requestAnimationFrame(render);
+skydome.rotation.y +=0.000;
+renderer.render(scene, camera);
+document.getElementById("iamx").innerHTML = camera.position.x;
+document.getElementById("iamy").innerHTML = camera.position.y;
+document.getElementById("iamz").innerHTML = camera.position.z;
+document.getElementById("iamrx").innerHTML = camera.rotation.x;
+document.getElementById("iamry").innerHTML = camera.rotation.y;
+document.getElementById("iaml").innerHTML = (Math.floor(10000*hlight.intensity))/10000;
+};
+render();
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

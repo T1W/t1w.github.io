@@ -1,0 +1,399 @@
+<html><head>
+<title> PIGLEN!</title>
+<style> body {margin:0;} canvas {width:100%; height:100%} </style>
+</head> <body> <script src ="resources/three.min.js"></script>
+<script src="resources/yummypig.js"></script>
+<script src="resources/newpig.js"></script>
+<script src="resources/tween.min.js"></script>
+
+<div style="margin:5px 0px 0px 5px; min-height:100px; max-width:300px; min-width:150px; position:absolute; word-wrap: break-word;background-color: rgba(255,255,255,0.2)">
+<p style="margin:3px;">X:<span id="iamx"> X</span></p>
+<p style="margin:3px;">Y:<span id="iamy"> Y</span></p>
+<p style="margin:3px;">Z:<span id="iamz"> Z</span></p>
+<p style="margin:3px;">y:<span id="iamry"> rotation y</span></p>
+<p style="margin:3px;">x:<span id="iamrx"> rotation x</span></p>
+<p style="margin:3px;">L:<span id="iaml"> Light (hlight intensity, goes from 0(low) to 0.8(high))</span></p>
+</div>
+<script>
+var scene = new THREE.Scene();
+var camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 10000);
+camera.position.y = 40;
+camera.position.z = -48;
+camera.position.x = 4;
+camera.rotation.y = Math.PI/2*2/2;
+camera.rotation.x = Math.PI/180*0-0.13+0.13-1.08;
+camera.eulerOrder = "ZYX";
+var light = new THREE.PointLight(0xffFFfF, 0.3, 1000, 2);
+light.position.set(camera.position.x, camera.position.y, camera.position.z);
+scene.add(light);
+var light2 = new THREE.PointLight(0xFFFfff, 0.0, 10000);
+light2.position.set(500, 0,0);
+scene.add(light2);
+var hlight = new THREE.HemisphereLight(0xFFFFfF, 0xFFFFfF, 0.8);
+scene.add(hlight);
+var renderer = new THREE.WebGLRenderer();
+renderer.setSize(window.innerWidth, window.innerHeight);
+document.body.appendChild(renderer.domElement);
+
+var skybg = new THREE.TextureLoader().load("resources/tansky.jpg");
+var skymaterial = new THREE.MeshLambertMaterial({map:skybg, side:THREE.BackSide});
+var Skysphere = new THREE.SphereGeometry(5000, 64, 32);
+var skydome = new THREE.Mesh(Skysphere, skymaterial);
+scene.add(skydome);
+
+var grassbg = new THREE.TextureLoader().load("resources/grassground.jpg");
+grassbg.wrapS = THREE.RepeatWrapping;
+grassbg.wrapT = THREE.RepeatWrapping;
+grassbg.repeat.set(500,500);
+var grassmaterial = new THREE.MeshLambertMaterial({map:grassbg});
+var grassplane = new THREE.PlaneGeometry(10000, 10000);
+var grassground = new THREE.Mesh(grassplane, grassmaterial);
+grassground.rotation.x = -Math.PI/2;
+scene.add(grassground);
+grassground.name = "grassground";
+
+var beachball = new THREE.TextureLoader().load("resources/BeachBallColor2.jpg");
+var ballcolor = new THREE.MeshLambertMaterial({map:beachball});
+var sphere = new THREE.SphereGeometry(3, 64, 32);
+var lightcolor = new THREE.MeshLambertMaterial({color:0xccffff});
+var Sphere = new THREE.Mesh(sphere, ballcolor);
+Sphere.position.set(20, 5, 20);
+scene.add(Sphere);
+
+var raycaster = new THREE.Raycaster();
+
+document.onkeydown = function(e) {
+  if(e.keyCode === 37) { // left
+    camera.rotation.y += Math.PI/90;
+  }
+  if(e.keyCode === 39) { //right
+    camera.rotation.y -= Math.PI/90;
+  }
+  if(e.keyCode === 38) { //up
+    raycaster.set(camera.position, new THREE.Vector3(-Math.sin(camera.rotation.y),0,-Math.cos(camera.rotation.y)));
+    var intersects = raycaster.intersectObjects(scene.children,true);
+    if(intersects.length == 0 || intersects[0].distance>=4) {
+      camera.position.z -= 2*Math.cos(camera.rotation.y);
+      camera.position.x -= 2*Math.sin(camera.rotation.y);
+    }
+  }
+  if(e.keyCode === 40) { //down
+    raycaster.set(camera.position, new THREE.Vector3(Math.sin(camera.rotation.y),0,Math.cos(camera.rotation.y)));
+    var intersects = raycaster.intersectObjects(scene.children,true);
+    if(intersects.length == 0 || intersects[0].distance>=4) {
+      camera.position.z += 2*Math.cos(camera.rotation.y);
+      camera.position.x += 2*Math.sin(camera.rotation.y);
+    }
+  }
+  if(e.keyCode === 81) {
+    if(camera.rotation.x<Math.PI/2) camera.rotation.x += Math.PI/90;
+  }
+  if(e.keyCode === 65) {
+    if(camera.rotation.x>-Math.PI/2)camera.rotation.x -= Math.PI/90;
+  }
+  if(e.keyCode === 90) { 
+    raycaster.set(camera.position, new THREE.Vector3(-Math.cos(camera.rotation.y),0,Math.sin(camera.rotation.y)));
+    var intersects = raycaster.intersectObjects(scene.children,true);
+    if(intersects.length == 0 || intersects[0].distance>=4) {
+      camera.position.x -= 2*Math.cos(camera.rotation.y);
+      camera.position.z += 2*Math.sin(camera.rotation.y);
+    }
+  }
+  if(e.keyCode === 88) { 
+    raycaster.set(camera.position, new THREE.Vector3(Math.cos(camera.rotation.y),0,-Math.sin(camera.rotation.y)));
+    var intersects = raycaster.intersectObjects(scene.children,true);
+    if(intersects.length == 0 || intersects[0].distance>=4) {
+      camera.position.x += 2*Math.cos(camera.rotation.y);
+      camera.position.z -= 2*Math.sin(camera.rotation.y);
+    }
+  }
+  if(e.keyCode === 87) {
+    raycaster.set(camera.position, new THREE.Vector3(0,1,0));
+    var intersects = raycaster.intersectObjects(scene.children,true);
+    if(intersects.length == 0 || intersects[0].distance>=4) {
+      camera.position.y +=2;
+    }
+  }
+  if(e.keyCode === 83) {
+    raycaster.set(camera.position, new THREE.Vector3(0,-1,0));
+    var intersects = raycaster.intersectObjects(scene.children,true);
+    if(intersects.length == 0 || intersects[0].distance>=4) {
+      if(camera.position.y>2) {
+        camera.position.y -=2;
+      }
+    }
+  }
+light.position.set(camera.position.x, camera.position.y, camera.position.z);
+}
+
+var ghousefloor = new THREE.BoxGeometry(100,2,200);
+
+var ghousewalllong = new THREE.BoxGeometry(2,80,202);
+var gingerbreadbg = new THREE.TextureLoader().load("resources/gingerbread.jpg");
+gingerbreadbg.wrapS = THREE.RepeatWrapping;
+gingerbreadbg.wrapT = THREE.RepeatWrapping;
+gingerbreadbg.repeat.set(5,5);
+var gingerbread = new THREE.MeshLambertMaterial({map:gingerbreadbg});
+var ghousewall1 = new THREE.Mesh(ghousewalllong,gingerbread);
+ghousewall1.position.set(50,40,0);
+
+var gbhouse = new THREE.Mesh(ghousefloor,gingerbread);
+
+var ghousewallshort = new THREE.BoxGeometry(100,80,2);
+var ghousewall2 = new THREE.Mesh(ghousewallshort,gingerbread);
+ghousewall2.position.set(0,40,-100);
+gbhouse.add(ghousewall2);
+
+var ghousewall4 = ghousewall2.clone();
+ghousewall4.position.z = 100;
+gbhouse.add(ghousewall4);
+
+var ghdoor = new THREE.BoxGeometry(2,40,18);
+var ghoudoor = new THREE.Mesh(ghdoor,gingerbread);
+ghoudoor.position.set(-50,60,0);
+scene.add(ghoudoor);
+
+var ghwallpart = new THREE.BoxGeometry(2,80,92);
+var ghousewall3p = new THREE.Mesh(ghwallpart,gingerbread);
+ghousewall3p.position.set(-50,40,-55);
+gbhouse.add(ghousewall3p);
+
+var ghousewall3q = ghousewall3p.clone();
+ghousewall3q.position.z = 55;
+gbhouse.add(ghousewall3q);
+
+gbhouse.add(ghousewall1);
+
+var ghouseconey = new THREE.ConeGeometry(72,50,4,1,false,Math.PI/180*45);
+var ghcon1 = new THREE.Mesh(ghouseconey,gingerbread);
+ghcon1.position.set(0,105,-100);
+ghcon1.scale.z = 0.02;
+gbhouse.add(ghcon1);
+
+var ghcon2 = ghcon1.clone();
+ghcon2.position.set(0,105,100);
+gbhouse.add(ghcon2);
+
+var ghouseroof1 = new THREE.BoxGeometry(2,85,220);
+var gingerbreadroof = new THREE.TextureLoader().load("resources/gingerbreadroof.jpg");
+gingerbreadroof.wrapS = THREE.RepeatWrapping;
+gingerbreadroof.wrapT = THREE.RepeatWrapping;
+gingerbreadroof.repeat.set(2,1);
+var ghroof = new THREE.MeshLambertMaterial({map:gingerbreadroof});
+var ghroof1 = new THREE.Mesh(ghouseroof1,ghroof);
+ghroof1.position.set(-30.9,100.8,0);
+ghroof1.rotation.z = -Math.PI/180*45.5;
+gbhouse.add(ghroof1);
+
+var ghroofd1 = new THREE.BoxGeometry(2,85,2);
+var white = new THREE.MeshLambertMaterial({color:0xffffff});
+var ghroofd = new THREE.Mesh(ghroofd1,white);
+ghroofd.position.set(2,2,110);
+ghroof1.add(ghroofd);
+
+var ghroof2 = ghroof1.clone();
+ghroof2.position.x = 30.9;
+ghroof2.rotation.z = Math.PI/180*45.5;
+gbhouse.add(ghroof2);
+
+scene.add(gbhouse);
+
+var wood2 = new THREE.TextureLoader().load("resources/wood2.jpg");
+var woodtexture = new THREE.MeshLambertMaterial({map:wood2});
+var ghtabletop = new THREE.BoxGeometry(25,2,45);
+var ghtable = new THREE.Mesh(ghtabletop,woodtexture);
+ghtable.position.set(-15,20,-50);
+
+var ghtablel = new THREE.BoxGeometry(3,19,3);
+var ghtableleg = new THREE.Mesh(ghtablel,woodtexture);
+ghtableleg.position.set(11,-10.5,21);
+ghtable.add(ghtableleg);
+
+var ghtablel2 = ghtableleg.clone();
+ghtablel2.position.x = -11;
+
+var ghtablel3 = ghtablel2.clone();
+ghtablel3.position.z = -21;
+
+var ghtablel4 = ghtablel3.clone();
+ghtablel4.position.x = 11;
+
+ghtable.add(ghtablel2);
+ghtable.add(ghtablel3);
+ghtable.add(ghtablel4);
+gbhouse.add(ghtable);
+
+var platebottom = new THREE.CylinderGeometry(8,4,0.5,32,1);
+var shinywhite = new THREE.MeshPhongMaterial({color:0xe9ecfa});
+var plate = new THREE.Mesh(platebottom,shinywhite);
+plate.position.set(0,1.3,10);
+
+var platetop = new THREE.TorusGeometry(7.5,1,16,100);
+var platestop = new THREE.Mesh(platetop,shinywhite);
+platestop.rotation.x = Math.PI/2;
+platestop.position.set(0,0.4,0);
+platestop.scale.z = 0.25;
+plate.add(platestop);
+
+var plate2 = plate.clone();
+plate2.position.set(0,1.3,-10);
+
+var ghfishm = new THREE.MeshLambertMaterial({color:0xffd200});
+var ghfishy = new THREE.SphereGeometry(3.5,64,32);
+var ghfish = new THREE.Mesh(ghfishy,ghfishm);
+ghfish.rotation.x = -Math.PI/2;
+ghfish.scale.z = 0.2;
+ghfish.scale.y = 1.5;
+ghfish.position.set(0,0.6,-1.2);
+
+var ghfishtail = new THREE.ConeGeometry(2,2,32);
+var ghftail = new THREE.Mesh(ghfishtail,ghfishm);
+ghftail.position.set(0,-4,0);
+ghfish.add(ghftail);
+
+var ghfin = new THREE.Mesh(ghfishtail,ghfishm);
+ghfin.position.set(0,0,3.4);
+ghfish.add(ghfin);
+
+var ghfisheye = new THREE.SphereGeometry(0.7,32,16);
+var ghfishwhite = new THREE.MeshLambertMaterial({color:0xffffff});
+var ghfeye = new THREE.Mesh(ghfisheye,ghfishwhite);
+ghfeye.position.set(0,2,3.5);
+ghfeye.scale.y = 0.6666666667;
+ghfish.add(ghfeye);
+
+var ghfeyes = new THREE.SphereGeometry(0.5,32,16);
+var ghfishblack = new THREE.MeshLambertMaterial({color:0x000000});
+var ghfis = new THREE.Mesh(ghfeyes,ghfishblack);
+ghfeye.add(ghfis);
+ghfis.position.set(0,0,0.5);
+
+plate2.add(ghfish);
+
+ghtable.add(plate2);
+
+var ghcookiebg = new THREE.TextureLoader().load("resources/gingerbread2.jpg");
+var ghcookiegb = new THREE.MeshLambertMaterial({map:ghcookiebg});
+var ghcookies = new THREE.SphereGeometry(2.5,64,32);
+var ghcookie = new THREE.Mesh(ghcookies,ghcookiegb);
+ghcookie.rotation.x = -Math.PI/2;
+ghcookie.scale.z = 0.2;
+ghcookie.position.set(2,0.7,3);
+plate.add(ghcookie);
+
+var ghcookie2 = ghcookie.clone();
+ghcookie2.position.set(3,0.7,-2.7);
+var ghcktorus = new THREE.TorusGeometry(1.8,0.2,16,70);
+var ghckwhite = new THREE.MeshLambertMaterial({color:0xffffff});
+var ghckicing = new THREE.Mesh(ghcktorus,ghckwhite);
+ghckicing.position.set(0,0,1.5);
+ghckicing.scale.z = 5;
+ghcookie2.add(ghckicing);
+plate.add(ghcookie2);
+
+ghtable.add(plate);
+
+var ghchairleg = new THREE.BoxGeometry(2,12,2);
+var ghchairl = new THREE.Mesh(ghchairleg,woodtexture);
+ghchairl.position.set(-7,-6.5,-7);
+
+var ghchairl2 = ghchairl.clone();
+ghchairl2.position.x = 7;
+
+var ghchairl3 = ghchairl2.clone();
+ghchairl3.position.z = 7;
+
+var ghchairl4 = ghchairl.clone();
+ghchairl4.position.z = 7;
+
+var ghchairseat = new THREE.BoxGeometry(16,1.5,16);
+var ghchair = new THREE.Mesh(ghchairseat,woodtexture);
+ghchair.position.set(8,12,-48);
+
+ghchair.add(ghchairl);
+ghchair.add(ghchairl2);
+ghchair.add(ghchairl3);
+ghchair.add(ghchairl4);
+
+var ghchairback = new THREE.BoxGeometry(1.5,16,16);
+var ghchairb = new THREE.Mesh(ghchairback,woodtexture);
+ghchairb.position.set(7.25,8.5,0);
+ghchair.add(ghchairb);
+
+gbhouse.add(ghchair);
+
+var ghchair2 = ghchair.clone();
+ghchair2.position.set(-16,12,-70);
+ghchair2.rotation.y = Math.PI/2;
+gbhouse.add(ghchair2);
+
+var ghchair3 = ghchair2.clone();
+ghchair3.position.set(-16,12,-25);
+ghchair3.rotation.y = -Math.PI/2;
+gbhouse.add(ghchair3);
+
+var ghchair4 = ghchair2.clone();
+ghchair4.position.set(-25,12,-48);
+ghchair4.rotation.y = Math.PI;
+gbhouse.add(ghchair4);
+
+var yummy = createyumpig();
+yummy.rotation.y = -Math.PI/2;
+yummy.scale.set(1.0,1.0,1.0);
+yummy.position.set(0,15,0);
+scene.add(yummy);
+
+var NEW = createNEWPIG();
+NEW.position.set(-20,8,-20);
+
+document.onclick = function(e) {
+  var mouse = new THREE.Vector2( (e.clientX/window.innerWidth)*2-1, -(e.clientY/window.innerHeight)*2+1);
+  raycaster.setFromCamera(mouse,camera);
+
+  var lamparray = [mhlampshade,MushroomHouse2.children[3].children[0]];
+  var intersects = raycaster.intersectObjects(lamparray);
+  //console.log(intersects[0].object.children[0].children[0].intensity);
+  if(intersects.length>0) {
+    var mhmhlight = intersects[0].object.children[0].children[0];
+    if(mhmhlight.intensity>0) {
+      mhmhlight.intensity = 0;      
+    } else {
+      mhmhlight.intensity = 1;
+    }
+  }
+
+}
+
+new TWEEN.Tween(hlight).to({intensity:0.8},600000).repeat(Infinity).yoyo(true).easing(TWEEN.Easing.Cubic.InOut).start();
+
+var render = function () {
+TWEEN.update();
+requestAnimationFrame(render);
+skydome.rotation.y +=0.000;
+renderer.render(scene, camera);
+document.getElementById("iamx").innerHTML = camera.position.x;
+document.getElementById("iamy").innerHTML = camera.position.y;
+document.getElementById("iamz").innerHTML = camera.position.z;
+document.getElementById("iamrx").innerHTML = camera.rotation.x;
+document.getElementById("iamry").innerHTML = camera.rotation.y;
+document.getElementById("iaml").innerHTML = (Math.floor(10000*hlight.intensity))/10000;
+};
+render();
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
