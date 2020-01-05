@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Matching</title>
+<link rel="icon" href="../../images/redflower.png">
+</head>
+<body>
+<noscript>
+<h1>This game requires javascript</h1>
+</noscript>
+
+<div style="position:absolute; left:10px; top:10px; font-size:50px; padding:0px 10px 5px 10px" id="rightwrong"></div>
+<div style="position:absolute; right:10px; top:10px; font-size:50px; padding:0px 10px 5px 10px" id="score">0</div>
+<img src="" id="choosepic" height="400px" style="display:block; margin: auto;"></img>
+<div id="bottom" style="position: absolute; top:500px; width: calc(95% + 36px);">
+<div class="cont" onclick="tryopen(0)" style="background-color: #ecfcff; width: 8.75vw; height: 8.75vw; padding:4px; border: 1px solid cornflowerblue; display: inline-block">
+<img src="" style="max-width: 90%; max-height: 90%; margin:auto; display:block;" class="spic"></img>
+</div>
+<div class="cont" onclick="tryopen(1)" style="background-color: #ecfcff; width: 8.75vw; height: 8.75vw; padding:4px; border: 1px solid cornflowerblue; display: inline-block">
+<img src="" style="max-width: 90%; max-height: 90%; margin:auto; display:block;" class="spic"></img>
+</div>
+<div class="cont" onclick="tryopen(2)" style="background-color: #ecfcff; width: 8.75vw; height: 8.75vw; padding:4px; border: 1px solid cornflowerblue; display: inline-block">
+<img src="" style="max-width: 90%; max-height: 90%; margin:auto; display:block" class="spic"></img>
+</div>
+<div class="cont" onclick="tryopen(3)" style="background-color: #ecfcff; width: 8.75vw; height: 8.75vw; padding:4px; border: 1px solid cornflowerblue; display: inline-block">
+<img src="" style="max-width: 90%; max-height: 90%; margin:auto; display:block" class="spic"></img>
+</div>
+<div class="cont" onclick="tryopen(4)" style="background-color: #ecfcff; width: 8.75vw; height: 8.75vw; padding:4px; border: 1px solid cornflowerblue; display: inline-block">
+<img src="" style="max-width: 90%; max-height: 90%; margin:auto; display:block" class="spic"></img>
+</div>
+<div class="cont" onclick="tryopen(5)" style="background-color: #ecfcff; width: 8.75vw; height: 8.75vw; padding:4px; border: 1px solid cornflowerblue; display: inline-block">
+<img src="" style="max-width: 90%; max-height: 90%; margin:auto; display:block" class="spic"></img>
+</div>
+<div class="cont" onclick="tryopen(6)" style="background-color: #ecfcff; width: 8.75vw; height: 8.75vw; padding:4px; border: 1px solid cornflowerblue; display: inline-block">
+<img src="" style="max-width: 90%; max-height: 90%; margin:auto; display:block" class="spic"></img>
+</div>
+<div class="cont" onclick="tryopen(7)" style="background-color: #ecfcff; width: 8.75vw; height: 8.75vw; padding:4px; border: 1px solid cornflowerblue; display: inline-block">
+<img src="" style="max-width: 90%; max-height: 90%; margin:auto; display:block" class="spic"></img>
+</div>
+<div class="cont" onclick="tryopen(8)" style="background-color: #ecfcff; width: 8.75vw; height: 8.75vw; padding:4px; border: 1px solid cornflowerblue; display: inline-block">
+<img src="" style="max-width: 90%; max-height: 90%; margin:auto; display:block" class="spic"></img>
+</div>
+<div class="cont" onclick="tryopen(9)" style="background-color: #ecfcff; width: 8.75vw; height: 8.75vw; padding:4px; border: 1px solid cornflowerblue; display: inline-block">
+<img src="" style="max-width: 90%; max-height: 90%; margin:auto; display:block" class="spic"></img>
+</div>
+</div>
+<button onclick="closeall()">Close</button>
+<style>
+.spic {
+	position: relative;
+	top: 50%;
+	transform: translateY(-50%);
+}
+</style>
+<script>
+var images = ["../../images/pigs/little pink little pig sister.png", "../../images/pigs/yummyPIG.png", "../../images/other/mushroom 2.png", "../../images/other/snowflake3bt.png", "../../images/other/sapphire.png", "../../images/pigs/flypig.png", "../../images/pigs/bigpig.png", "../../images/pigs/mom bigpig.png", "../../images/pigs/win pig.png", "../../images/other/whiteyellowflower2.png"];
+images = shuffle(images);
+var choosepic = document.getElementById("choosepic");
+var items = document.querySelectorAll(".spic");
+var conts = document.querySelectorAll(".cont");
+var indices = images.splice();
+var inum = 10;
+var backimg = "../../images/game/cardback.png";
+var choosepicimg;
+var left = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+var rightwrong = document.getElementById("rightwrong");
+var score = 0;
+var addscore = 100;
+var tries = 0;
+var won=0;
+
+function choosePicture() {
+	if(left.length==0) {
+		win();
+		return;
+	}
+	var a = Math.floor(Math.random()*left.length);
+	choosepicimg = left[a];
+	left.splice(a, 1);
+	choosepic.src=images[choosepicimg];
+}
+
+for(var i = 0; i<inum; i++) {
+	items[i].src = images[i];
+}
+
+function shuffle(array) {
+	var placeholder;
+	var num = array.length;
+	for(var i = 0; i<num; i++) {
+		var pr = Math.floor(Math.random()*10);
+		var pr2 = Math.floor(Math.random()*10);
+		placeholder = array[pr];
+		array[pr] = array[pr2];
+		array[pr2] = placeholder;
+	}
+	return array;
+}
+
+function closeall() {
+	for(var i = 0; i<inum; i++) {
+		conts[i].style.backgroundImage = 'url(' + backimg + ')';
+		conts[i].style.backgroundSize = "cover";
+		items[i].style.display = "none";
+	}
+}
+function close(w) {
+	conts[w].style.backgroundImage = 'url(' + backimg + ')';
+	conts[w].style.backgroundSize = "cover";
+	items[w].style.display = "none";
+}
+function open(w) {
+	conts[w].style.backgroundImage = "none";
+	items[w].style.display = "block";
+}
+
+function tryopen(w) {
+	if(won==0) {
+		if(choosepicimg==w) {
+			tries=0;
+			score+=addscore;
+			addscore=100;
+			rightwrong.style.color="green";
+			rightwrong.innerHTML="Correct!";
+			rightwrong.style.backgroundColor="rgba(34,255,120,0.2)";
+			document.getElementById("score").innerHTML=score.toString();
+			open(w);
+			choosePicture();
+		} else {
+			tries+=1;
+			addscore/=2;
+			if(tries==10) {
+				addscore=0;
+			}
+			rightwrong.style.color="#cc0000";
+			rightwrong.innerHTML="Wrong! x" + tries.toString();
+			rightwrong.style.backgroundColor="rgba(255,120,120,0.2)";
+		}
+	}
+}
+
+function win() {
+	rightwrong.style.color="#ddcc00";
+	rightwrong.innerHTML="You win!";
+	rightwrong.style.backgroundColor="rgba(255,250,120,0.2)";
+	won=1;
+}
+
+choosePicture();
+</script>
+</body>
+</html>
