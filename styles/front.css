@@ -1,7 +1,7 @@
 @charset "UTF-8";
 
 html {
-	background-color:#dcecfe
+	background-color:#fedcdc
 }
 body {
 	margin:0px;
@@ -23,21 +23,21 @@ main {
 }
 #top {
 	height: 150px;
-	background-image: url(../images/aspiondbanner2part.png);
+	background-image: url(../images/aspiondbannerpart.png);
 	background-position: center;
 	background-size: auto 100%;
 	background-repeat: repeat-x;
 }
 #banner {
 	height: 150px;
-	background-image: url(../images/aspiondbanner2.png);
+	background-image: url(../images/aspiondbanner.png);
 	background-position: center;
 	background-size: auto 100%;
 	background-repeat: no-repeat;
 }
 .horizlist {
 	width:100%;
-	background-color:#548ae6;
+	background-color:#e65454;
 	text-align:center;
 	font-size:0;
 }
@@ -50,10 +50,10 @@ main {
 	padding:1px;
 }
 .horizlist a:hover {
-	background-color:#2159c8;
+	background-color:#c82121;
 }
 .hrred {
-	color:#aabbff;
+	color:#ffaaaa;
 }
 
 .sbutton {
