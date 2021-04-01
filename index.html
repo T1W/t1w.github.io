@@ -42,13 +42,13 @@
 
 <main>
 
-<h1 class="center">About</h1>
-<p class="a center">Hello. Welcome to my site. The name "aspiond" comes from "<span style="color:blue">a</span>" + "<span style="color:blue">spi</span>n" + "diam<span style="color:blue">ond</span>". Currently, there is only one section on this site. It is <a href="en/happystar/pigs/index.html">Happy Star</a>. Right now it only has pages about toy pigs.</p>
+<h1 class="center">April</h1>
+<p class="a center">Pigs! Pigs love to bounce! Oink oink! Click on a pig for more pigs! Press 0 to delete all pigs, ad press 9 to delete all pigs except for one.</p>
 
 <a href="en/happystar/pigs/index.html"><button class="sbutton happy">Visit Happy Star -&gt;</button></a>
 
 <h1 class="center">Happy Star</h1>
-<p class="a center">The name "Happy Star" comes from nowhere in particular, and it can be stylized as "Happy ❊". The name originally used the character "✳". However, the character is sometimes shown as an emoji, so now the character "❊" is used instead. Happy Star only has one section right now, which is about toy pigs, but it may have more in the future. (I'd like it to have an art section and a story section.)</p>
+<p class="center">:)</p>
 
 <hr class="hrred">
 Created 2019/10/14
@@ -59,6 +59,85 @@ Created 2019/10/14
 </div>
 
 </main>
+
+<div style="position:fixed; right:0; top:0; background-color:rgba(0,0,0,0.5); color:white; padding:5px;">
+Click a pig for more pigs!<br>
+Press 0 to delete all pigs<br>
+Press 9 to delete all pigs except one
+</div>
+
+<script>
+
+function Pig() {
+	var angle = (Math.floor(Math.random()*51+20))/180*Math.PI;
+	var speed = Math.random()*3+4;
+	this.dx = speed*Math.cos(angle);
+	this.dy = speed*Math.cos(angle);
+	this.x = Math.random()*window.innerWidth;
+	this.y = Math.random()*window.innerHeight;
+	this.ele = document.createElement("img");
+	this.ele.src = "images/pigs/bigpig.png";
+	this.ele.style.position = "fixed";
+	this.ele.style.maxWidth = "100px";
+	this.ele.style.maxHeight = "120px";
+	this.ele.onmousedown = function(){var piggy = new Pig(); pigs.push(piggy);};
+	document.body.appendChild(this.ele);
+	movePig(this);
+}
+
+function bounceSide(pig) {
+	pig.dx = -pig.dx;
+}
+
+function bounceTop(pig) {
+	pig.dy = -pig.dy;
+}
+
+function movePig(pig) {	
+	if(pig.dy+pig.y>=(window.innerHeight-pig.ele.height)) {
+		pig.y = window.innerHeight-pig.ele.height;
+		bounceTop(pig)
+	} else if (pig.dy+pig.y<0) {
+		pig.y = 0;
+		bounceTop(pig)
+	} else {
+		pig.y+=pig.dy;
+	}
+	if(pig.dx+pig.x>=(window.innerWidth-pig.ele.width)) {
+		pig.x = window.innerWidth-pig.ele.width;						bounceSide(pig)
+	} else if(pig.dx+pig.x<0) {
+		pig.x = 0;
+		bounceSide(pig)
+	} else {
+		pig.x+=pig.dx;
+	}
+	pig.ele.style.left = pig.x + "px";
+	pig.ele.style.top = pig.y + "px";
+	
+	window.requestAnimationFrame(function() {
+		movePig(pig);
+	});
+}
+
+var pigs = [];
+var oink = new Pig();
+pigs.push(oink);
+
+document.onkeydown = function(e) {
+	if(e.keyCode == 48) {
+		for(var i = 0; i<pigs.length; i++) {
+			pigs[i].ele.remove();
+		}
+	}
+	if(e.keyCode == 57) {
+		for(var i = pigs.length-1; i>0; i--) {
+			pigs[i].ele.remove();
+		}
+	pigs.length = 1;
+	}
+}
+
+</script>
 
 </body>
 </html>

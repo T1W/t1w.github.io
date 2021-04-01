@@ -178,5 +178,84 @@ Created 2019/12/30
 
 </main>
 
+<div style="position:fixed; right:0; top:0; background-color:rgba(0,0,0,0.5); color:white; padding:5px;">
+Click a pig for more pigs!<br>
+Press 0 to delete all pigs<br>
+Press 9 to delete all pigs except one
+</div>
+
+<script>
+
+function Pig() {
+	var angle = (Math.floor(Math.random()*51+20))/180*Math.PI;
+	var speed = Math.random()*3+4;
+	this.dx = speed*Math.cos(angle);
+	this.dy = speed*Math.cos(angle);
+	this.x = Math.random()*window.innerWidth;
+	this.y = Math.random()*window.innerHeight;
+	this.ele = document.createElement("img");
+	this.ele.src = "images/pigs/bigpig.png";
+	this.ele.style.position = "fixed";
+	this.ele.style.maxWidth = "100px";
+	this.ele.style.maxHeight = "120px";
+	this.ele.onmousedown = function(){var piggy = new Pig(); pigs.push(piggy);};
+	document.body.appendChild(this.ele);
+	movePig(this);
+}
+
+function bounceSide(pig) {
+	pig.dx = -pig.dx;
+}
+
+function bounceTop(pig) {
+	pig.dy = -pig.dy;
+}
+
+function movePig(pig) {	
+	if(pig.dy+pig.y>=(window.innerHeight-pig.ele.height)) {
+		pig.y = window.innerHeight-pig.ele.height;
+		bounceTop(pig)
+	} else if (pig.dy+pig.y<0) {
+		pig.y = 0;
+		bounceTop(pig)
+	} else {
+		pig.y+=pig.dy;
+	}
+	if(pig.dx+pig.x>=(window.innerWidth-pig.ele.width)) {
+		pig.x = window.innerWidth-pig.ele.width;						bounceSide(pig)
+	} else if(pig.dx+pig.x<0) {
+		pig.x = 0;
+		bounceSide(pig)
+	} else {
+		pig.x+=pig.dx;
+	}
+	pig.ele.style.left = pig.x + "px";
+	pig.ele.style.top = pig.y + "px";
+	
+	window.requestAnimationFrame(function() {
+		movePig(pig);
+	});
+}
+
+var pigs = [];
+var oink = new Pig();
+pigs.push(oink);
+
+document.onkeydown = function(e) {
+	if(e.keyCode == 48) {
+		for(var i = 0; i<pigs.length; i++) {
+			pigs[i].ele.remove();
+		}
+	}
+	if(e.keyCode == 57) {
+		for(var i = pigs.length-1; i>0; i--) {
+			pigs[i].ele.remove();
+		}
+	pigs.length = 1;
+	}
+}
+
+</script>
+
 </body>
 </html>
