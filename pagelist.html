@@ -190,7 +190,7 @@ function Pig() {
 	var angle = (Math.floor(Math.random()*51+20))/180*Math.PI;
 	var speed = Math.random()*3+4;
 	this.dx = speed*Math.cos(angle);
-	this.dy = speed*Math.cos(angle);
+	this.dy = speed*Math.sin(angle);
 	this.x = Math.random()*window.innerWidth;
 	this.y = Math.random()*window.innerHeight;
 	this.ele = document.createElement("img");
