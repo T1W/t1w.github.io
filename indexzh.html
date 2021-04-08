@@ -1,7 +1,7 @@
 ﻿<!DOCTYPE html>
 <html>
 <head>
-<title>蓝的 Aspiond</title>
+<title>Aspiond</title>
 <link rel="icon" href="images/redflower.png">
 <link rel="stylesheet" type="text/css" href="styles/front.css">
 <link rel="stylesheet" type="text/css" href="styles/style.css">
@@ -41,12 +41,12 @@
 <main>
 
 <h1 class="center">介绍</h1>
-<p class="a center">Oink oink! 大猪喜欢弹!</p>
+<p class="a">你好。欢迎你来到我的网站。Aspiond这个名字是从英文"<span style="color:blue">a</span>" + "<span style="color:blue">spi</span>n" + "diam<span style="color:blue">ond</span>"来的。现在只有一个部分, 叫<a href="zh/happystar/pigs/index.html">Happy Star</a>。现在Happy Star只讲到玩具猪。这个网站有一个中文版本和一个英文版本。我的中文没有那么好, 所以我觉得英文版本应该更好一点。</p>
 
 <a href="zh/happystar/pigs/index.html"><button class="sbutton happy">参观 Happy ❊ -&gt;</button></a>
 
-<h1 class="center">Happy ❊</h1>
-<p class="a center">Oink oink!</p>
+<h1 class="center">Happy 🞻</h1>
+<p class="a">可以把“Happy Star”写成"高兴星"或者"Happy ❊"。我本来想要把Happy Star分成几部分。现在只有一部分, 就是讲玩具猪的。以后我要加一个讲艺术和一个讲故事的部分。</p>
 
 <hr class="hrred">
 2019/12/30 创建的
@@ -57,85 +57,5 @@
 </div>
 
 </main>
-
-<div style="position:fixed; right:0; top:0; background-color:rgba(0,0,0,0.5); color:white; padding:5px;">
-按一个猪就会出来更多猪<br>
-按 0 就会把所有的猪删掉<br>
-按 9 就会只留下来一个猪
-</div>
-
-<script>
-
-function Pig() {
-	var angle = (Math.floor(Math.random()*51+20))/180*Math.PI;
-	var speed = Math.random()*3+4;
-	this.dx = speed*Math.cos(angle);
-	this.dy = speed*Math.sin(angle);
-	this.x = Math.random()*window.innerWidth;
-	this.y = Math.random()*window.innerHeight;
-	this.ele = document.createElement("img");
-	this.ele.src = "images/pigs/bigpig.png";
-	this.ele.style.position = "fixed";
-	this.ele.style.maxWidth = "100px";
-	this.ele.style.maxHeight = "120px";
-	this.ele.onmousedown = function(){var piggy = new Pig(); pigs.push(piggy);};
-	document.body.appendChild(this.ele);
-	movePig(this);
-}
-
-function bounceSide(pig) {
-	pig.dx = -pig.dx;
-}
-
-function bounceTop(pig) {
-	pig.dy = -pig.dy;
-}
-
-function movePig(pig) {	
-	if(pig.dy+pig.y>=(window.innerHeight-pig.ele.height)) {
-		pig.y = window.innerHeight-pig.ele.height;
-		bounceTop(pig)
-	} else if (pig.dy+pig.y<0) {
-		pig.y = 0;
-		bounceTop(pig)
-	} else {
-		pig.y+=pig.dy;
-	}
-	if(pig.dx+pig.x>=(window.innerWidth-pig.ele.width)) {
-		pig.x = window.innerWidth-pig.ele.width;						bounceSide(pig)
-	} else if(pig.dx+pig.x<0) {
-		pig.x = 0;
-		bounceSide(pig)
-	} else {
-		pig.x+=pig.dx;
-	}
-	pig.ele.style.left = pig.x + "px";
-	pig.ele.style.top = pig.y + "px";
-	
-	window.requestAnimationFrame(function() {
-		movePig(pig);
-	});
-}
-
-var pigs = [];
-var oink = new Pig();
-pigs.push(oink);
-
-document.onkeydown = function(e) {
-	if(e.keyCode == 48) {
-		for(var i = 0; i<pigs.length; i++) {
-			pigs[i].ele.remove();
-		}
-	}
-	if(e.keyCode == 57) {
-		for(var i = pigs.length-1; i>0; i--) {
-			pigs[i].ele.remove();
-		}
-	pigs.length = 1;
-	}
-}
-
-</script>
-
 </body>
 </html>

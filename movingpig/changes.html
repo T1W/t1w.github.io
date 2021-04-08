@@ -1,0 +1,144 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<title>Changelog</title>
+<link rel="icon" href="../images/redflower.png">
+<link rel="stylesheet" type="text/css" href="../styles/front.css">
+<link rel="stylesheet" type="text/css" href="../styles/style.css">
+
+<style>
+p {
+	margin-top:5px;
+	margin-bottom:5px;
+}
+</style>
+
+</head>
+<body>
+<div id="top" title="Aspiond? A spin diamond? A spinmond!">
+<div id="banner">
+</div>
+</div>
+<div class="horizlist">
+<a href="index.html">Front</a>
+<a href="../en/happystar/pigs/index.html">Happy Star</a>
+<a href="pagelist.html">Page List</a>
+<a href="changes.html">Changes</a>
+</div>
+
+<main>
+
+<h1 class="center">2021/04/01</h1>
+<p class="center" style="font-size:18px">Added bouncing pigs!</p>
+
+<h1 class="center">2020/04/06</h1>
+<p class="center" style="font-size:18px">Changed colors back to red</p>
+<p class="center" style="font-size:18px">The blue version can be seen on <a href="blue/index.html">this page</a> (English) or <a href="blue/indexzh.html">this page</a> (Chinese).</p>
+
+<h1 class="center">2020/04/01</h1>
+<p class="center" style="font-size:18px">Changed colors from red to blue</p>
+
+<h1 class="center">2020/01/04</h1>
+<p class="center" style="font-size:18px">Added <a href="en/s/matchinggame.html">two</a> <a href="en/s/memorygame.html">games</a></p>
+
+<h1 class="center">2020/01/01</h1>
+<p class="center" style="font-size:18px">Added controls to the <a href="en/happystar/pigs/piglen/index.html#explore">Explore Piglen</a> section of the page on Piglen, Fixed title on <a href="en/happystar/pigs/pigtoys/bigpig.html">Big Pig</a> page</p>
+
+<h1 class="center">2019/12/31</h1>
+<p class="center" style="font-size:18px">Changed asterisks from ✳ to 🞻, Added a page on Piglen in Happy Star, Changed button sizings a little (their widths are no longer fixed now), Made this page go in reverse chronological order, Tried to proofread some pages</p>
+<p class="center" style="font-size:18px">Changed asterisks to ❊ since 🞻 is sometimes not supported</p>
+
+<h1 class="center">2019/12/30</h1>
+<p class="center" style="font-size:18px">Added this page, Site now on GitHub, Added piglenmushroomhouse and piglenbluepighouse</p>
+
+<hr class="hrred">
+Created 2019/12/30
+<hr class="hrred">
+<div id="bottom">
+<img src="../images/sunseal.svg" alt="gray circle with many yellow star" style="width:100px; height:100px" class="r" title="Sun seal wants to spin!">
+<img src="../images/partcloudy.png" alt="sun behind gray cloud" style="width:100px; height:100px" class="l">
+</div>
+
+</main>
+
+<div style="position:fixed; right:0; top:0; background-color:rgba(0,0,0,0.5); color:white; padding:5px;">
+Click a pig for more pigs!<br>
+Press 0 to delete all pigs<br>
+Press 9 to delete all pigs except one
+</div>
+
+<script>
+
+function Pig() {
+	var angle = (Math.floor(Math.random()*51+20))/180*Math.PI;
+	var speed = Math.random()*3+4;
+	this.dx = speed*Math.cos(angle);
+	this.dy = speed*Math.sin(angle);
+	this.x = Math.random()*window.innerWidth;
+	this.y = Math.random()*window.innerHeight;
+	this.ele = document.createElement("img");
+	this.ele.src = "../images/pigs/bigpig.png";
+	this.ele.style.position = "fixed";
+	this.ele.style.maxWidth = "100px";
+	this.ele.style.maxHeight = "120px";
+	this.ele.onmousedown = function(){var piggy = new Pig(); pigs.push(piggy);};
+	document.body.appendChild(this.ele);
+	movePig(this);
+}
+
+function bounceSide(pig) {
+	pig.dx = -pig.dx;
+}
+
+function bounceTop(pig) {
+	pig.dy = -pig.dy;
+}
+
+function movePig(pig) {	
+	if(pig.dy+pig.y>=(window.innerHeight-pig.ele.height)) {
+		pig.y = window.innerHeight-pig.ele.height;
+		bounceTop(pig)
+	} else if (pig.dy+pig.y<0) {
+		pig.y = 0;
+		bounceTop(pig)
+	} else {
+		pig.y+=pig.dy;
+	}
+	if(pig.dx+pig.x>=(window.innerWidth-pig.ele.width)) {
+		pig.x = window.innerWidth-pig.ele.width;						bounceSide(pig)
+	} else if(pig.dx+pig.x<0) {
+		pig.x = 0;
+		bounceSide(pig)
+	} else {
+		pig.x+=pig.dx;
+	}
+	pig.ele.style.left = pig.x + "px";
+	pig.ele.style.top = pig.y + "px";
+	
+	window.requestAnimationFrame(function() {
+		movePig(pig);
+	});
+}
+
+var pigs = [];
+var oink = new Pig();
+pigs.push(oink);
+
+document.onkeydown = function(e) {
+	if(e.keyCode == 48) {
+		for(var i = 0; i<pigs.length; i++) {
+			pigs[i].ele.remove();
+		}
+	}
+	if(e.keyCode == 57) {
+		for(var i = pigs.length-1; i>0; i--) {
+			pigs[i].ele.remove();
+		}
+	pigs.length = 1;
+	}
+}
+
+</script>
+
+</body>
+</html>
