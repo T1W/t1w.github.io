@@ -15,6 +15,9 @@ main {
 .a {
 	font-size:18px
 }
+.indent {
+	text-indent:50px
+}
 #title {
 	margin-left:auto;
 	margin-right:auto;
