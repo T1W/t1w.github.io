@@ -1,0 +1,417 @@
+<html>
+<head>
+<title>
+Not static
+</title>
+</head>
+<body>
+<div style="margin:5p 0px 0px 5px; position:absolute; right:5px; top:5px; word-wrap:break-word; background-color:rgba(255,255,255,0.3)">
+<p style="margin:3px"><span>C: Give slice of cake to New Pig</span></p>
+<p style="margin:3px"><span>L: Turn lights on/off</span></p>
+</div>
+
+<style>body {margin:0} canvas {width:100%; height:100%}</style>
+<script src="resources/three.min.js"></script>
+<script src="resources/newpig.js"></script>
+<script src="resources/bigpig.js"></script>
+<script src="resources/flypig.js"></script>
+<script>
+var scene = new THREE.Scene();
+var camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 20000);
+camera.position.z = 50;
+camera.position.y = 20;
+camera.rotation.x = -Math.PI/12;
+camera.eulerOrder = "ZYX"
+var light = new THREE.PointLight(0xFFFFFF, 0.4);
+light.position.set(30,30,30);
+scene.add(light);
+var hlight = new THREE.HemisphereLight(0xFFFFFF, 0xFFFFFF, 0.7);
+scene.add(hlight);
+var renderer = new THREE.WebGLRenderer();
+renderer.setSize(window.innerWidth, window.innerHeight);
+document.body.appendChild(renderer.domElement);
+
+var c = false;
+var l = 0;
+
+var cakebottom = new THREE.CylinderGeometry(15,15,2,64,1);
+var cakematerial = new THREE.MeshLambertMaterial({color:0xfce0aa, side:THREE.DoubleSide});
+var cakethebottom = new THREE.Mesh(cakebottom, cakematerial);
+var cake = new THREE.Object3D();
+cake.add(cakethebottom);
+
+var cake2O = new THREE.Object3D();
+
+var cshape2O = new THREE.Shape();
+cshape2O.absarc(0,0,15,Math.PI/180*28, Math.PI/180*90, false);
+cshape2O.lineTo(0,0);
+
+var cshapeO = new THREE.Shape();
+cshapeO.absarc(0,0,15,Math.PI/180*90,Math.PI/180*390,false);
+cshapeO.lineTo(0,0);
+
+var cextrude = {
+	amount:2,
+	curveSegments:128,
+	bevelEnabled:false
+}
+
+var ciextrude = {
+	amount:1.5,
+	curveSegments:128,
+	bevelEnabled: false
+}
+
+var cgeometryO = new THREE.ExtrudeGeometry(cshapeO, cextrude);
+var cigeometryO = new THREE.ExtrudeGeometry(cshapeO, ciextrude);
+var cgeometry2O = new THREE.ExtrudeGeometry(cshape2O, cextrude);
+var cigeometry2O = new THREE.ExtrudeGeometry(cshape2O, ciextrude);
+
+var cakeicing = new THREE.CylinderGeometry(15,15,1.5,64,1);
+var cakeicingO = new THREE.CylinderGeometry(15,15,1.5,64,1,false,Math.PI/3,Math.PI*5/3);
+var icingmaterial = new THREE.MeshLambertMaterial({color:0xffffff, side:THREE.DoubleSide});
+var cakeicing0 = new THREE.Mesh(cakeicing, icingmaterial);
+cakeicing0.position.set(0,1.75,0);
+cake.add(cakeicing0);
+var cakeicing02O = new THREE.Mesh(cigeometry2O,icingmaterial);
+cakeicing02O.position.z = -1.5;
+
+var cake1 = new THREE.Mesh(cakebottom,cakematerial);
+cake1.position.set(0,3.5,0);
+var cakethebottom2O = new THREE.Mesh(cgeometry2O,cakematerial);
+cakethebottom2O.rotation.x = Math.PI/2;
+cakethebottom2O.add(cakeicing02O);
+cake2O.add(cakethebottom2O);
+
+var cakeicing1 = cakeicing0.clone();
+
+var cake2 = cake1.clone(), cake3 = new THREE.Mesh(cakebottom, cakematerial);
+var cakeicing2 = cakeicing0.clone();
+cakeicing1.position.set(0,5.25,0);
+cake.add(cakeicing1);
+cake.add(cake1);
+cakeicing2.position.set(0,8.75,0);
+cake2.position.set(0,7,0);
+cake.add(cake2);
+cake.add(cakeicing2);
+cake3.position.set(0,10.5,0);
+cake.add(cake3);
+
+var cake22O = cakethebottom2O.clone(),cake32O = cake22O.clone();
+cake22O.position.y = -3.5;
+cake2O.add(cake22O);
+cake32O.position.y = -7;
+cake2O.add(cake32O);
+var cake42O = new THREE.Mesh(cgeometry2O,cakematerial);
+cake42O.position.y = 3.5;
+cake42O.rotation.x = Math.PI/2;
+cake2O.add(cake42O);
+
+var ctlshape = new THREE.Shape();
+ctlshape.absarc(0,0,16,0,Math.PI*2, false);
+var ctlcenter = new THREE.Path();
+ctlcenter.absarc(0,0,14.75,0,Math.PI*2,true);
+ctlshape.holes.push(ctlcenter);
+
+var ctlshapeO = new THREE.Shape();
+ctlshapeO.absarc(0,0,16,Math.PI/180*89,Math.PI/180*391,false);
+ctlshapeO.absarc(0,0,15,Math.PI/180*89,Math.PI/180*391,true);
+
+var ctlshape2O = new THREE.Shape();
+ctlshape2O.absarc(0,0,16,Math.PI/180*28,Math.PI/180*89.5,false);
+ctlshape2O.absarc(0,0,15,Math.PI/180*28,Math.PI/180*89.5,true);
+
+var ctlextrude = {
+	curveSegments: 128,
+	amount: 15.5,
+	bevelEnabled: false
+};
+
+var ctlgeometry = new THREE.ExtrudeGeometry(ctlshape, ctlextrude);
+var ctlgeometryO = new THREE.ExtrudeGeometry(ctlshapeO, ctlextrude);
+var caketoplayericing = new THREE.Mesh(ctlgeometry, icingmaterial);
+caketoplayericing.position.set(0,13,0);
+caketoplayericing.rotation.x = Math.PI/2;
+cake.add(caketoplayericing);
+
+var ctlgeometry2O = new THREE.ExtrudeGeometry(ctlshape2O,ctlextrude);
+var caketoplayericing2O = new THREE.Mesh(ctlgeometry2O,icingmaterial);
+caketoplayericing2O.position.set(0,5,0);
+caketoplayericing2O.rotation.x = Math.PI/2;
+cake2O.add(caketoplayericing2O);
+
+var cakeicingBottom = cakeicing0.clone();
+var cakeicingbottom = new THREE.Object3D();
+var cakeicingTop = cakeicing0.clone();
+var cakeicingtop = new THREE.Object3D();
+var cakeicingstop = new THREE.Object3D();
+var cakeicingsbottom = new THREE.Object3D();
+cakeicingbottom.position.set(0,-1.75,0);
+cakeicingBottom.position.set(0,0,0);
+cakeicingbottom.add(cakeicingBottom);
+cakeicingbottom.add(cakeicingsbottom);
+cakeicingtop.position.set(0,12.25,0);
+cakeicingTop.position.set(0,0,0);
+cakeicingtop.add(cakeicingTop);
+cakeicingtop.add(cakeicingstop);
+var caketopcandles = new THREE.Object3D();
+cakeicingtop.add(caketopcandles);
+cake.add(cakeicingtop, cakeicingbottom);
+
+var cakeicingBottom2O = cakeicing02O.clone();
+var cakeicingbottom2O = new THREE.Object3D();
+var cakeicingTop2O = cakeicing02O.clone();
+var cakeicingtop2O = new THREE.Object3D();
+cakeicingbottom2O.add(cakeicingBottom2O);
+cakeicingtop2O.add(cakeicingTop2O);
+cakeicingtop2O.position.set(0,4,0);
+cakeicingTop2O.position.set(0,1,0);
+cakeicingTop2O.rotation.x = Math.PI/2;
+cakeicingbottom2O.position.set(0,-9.5,0);
+cakeicingBottom2O.position.set(0,0.5,0);
+cakeicingBottom2O.rotation.x = Math.PI/2;
+cake2O.add(cakeicingtop2O,cakeicingbottom2O);
+
+var caked = new THREE.SphereGeometry(1,64,32);
+
+function cdice(n,t,what,what2) {
+	for(var i = 0; i<n; i++) {
+		var xrota=Math.PI*2/26*(i-t);
+		var xx = 15.5*Math.cos(xrota);
+		var zz = -15.5*Math.sin(xrota);
+		var cdex = new THREE.Mesh(caked, icingmaterial);
+		cdex.scale.x = 2;
+		cdex.rotation.y = xrota+Math.PI/2;
+		cdex.position.set(xx,1.25,zz);
+		what.add(cdex);
+		var cdec = cdex.clone();
+		cdec.position.set(16*Math.cos(xrota), 0, -16*Math.sin(xrota));
+		what2.add(cdec);
+	}
+}
+
+cdice(26,0,cakeicingstop,cakeicingsbottom);
+cdice(4,5.8,cakeicingtop2O,cakeicingbottom2O);
+
+var cakering = new THREE.TorusGeometry(16,0.5,16,100);
+var cakeringO = new THREE.TorusGeometry(16,0.5,16,100,Math.PI*2*5/6);
+var cakepink = new THREE.MeshLambertMaterial({color:0xffa7e9});
+var ckring = new THREE.Mesh(cakering, cakepink);
+ckring.position.set(0,5.75,0);
+ckring.rotation.x = Math.PI/2;
+cake.add(ckring);
+var cakersphere = new THREE.SphereGeometry(0.5,64,32);
+var cksphere = new THREE.Mesh(cakersphere, cakepink);
+cksphere.position.set(16,0,0);
+var cksphere1 = cksphere.clone();
+cksphere1.position.set(Math.cos(Math.PI/3)*16,-Math.sin(Math.PI/3)*16,0);
+
+var cakering2O = new THREE.TorusGeometry(16,0.5,16,100,Math.PI/3);
+var ckring2O = new THREE.Mesh(cakering2O,cakepink);
+ckring2O.rotation.x = Math.PI/2;
+ckring2O.rotation.z = Math.PI/180*28;
+ckring2O.position.set(0,-2.25,0);
+cake2O.add(ckring2O);
+var cksphere2O = new THREE.Mesh(cakersphere, cakepink);
+cksphere2O.position.set(16,0,0);
+var cksphere12O = cksphere2O.clone();
+cksphere12O.position.set(Math.cos(Math.PI/3)*16, Math.sin(Math.PI/3)*16, 0);
+ckring2O.add(cksphere12O, cksphere2O);
+
+var ccandle = new THREE.CylinderGeometry(0.5,0.5,5,32);
+var ccandleblue = new THREE.MeshLambertMaterial({color:0x76ccff});
+var ccandlefire = new THREE.SphereGeometry(0.75,64,32);
+var ccandlefireorange = new THREE.MeshLambertMaterial({color:0xffac56});
+var ccandlefiretop = new THREE.ConeGeometry(0.75,1.5,32);
+
+var plate = new THREE.CylinderGeometry(15,15,0.5,32,1);
+var platewhite = new THREE.MeshPhongMaterial({color:0xffffff,shininess:60});
+var platebottom = new THREE.Mesh(plate,platewhite);
+platebottom.position.set(40,-8,-3);
+
+var plates = new THREE.TorusGeometry(15,3,16,100);
+var plateoutside = new THREE.Mesh(plates,platewhite);
+plateoutside.rotation.x = Math.PI/2;
+plateoutside.scale.z = 0.2;
+platebottom.add(plateoutside);
+
+scene.add(platebottom);
+
+function addcandles(n,t,what) {
+	for(var i = 0; i<n; i++) {
+		var xrota=Math.PI*2/6*(i-t);
+		var xx = 12*Math.cos(xrota);
+		var zz = -12*Math.sin(xrota);
+		var candlx = new THREE.Mesh(ccandle, ccandleblue);
+		var ccf = new THREE.Mesh(ccandlefire, ccandlefireorange);
+		var ccft = new THREE.Mesh(ccandlefiretop, ccandlefireorange);
+		var cclight = new THREE.PointLight(0xFF9F2F, 1.8, 25, 4);
+		cclight.position.set(0,1.5,0);
+		ccft.add(cclight);
+		ccft.position.set(0,0.75,0);
+		ccf.add(ccft);
+		ccf.position.set(0,3.25,0);
+		candlx.add(ccf);
+		candlx.position.set(xx,3.2,zz);
+		what.add(candlx);
+	}
+}
+
+addcandles(6,0,caketopcandles);
+addcandles(1,1,cakeicingtop2O);
+
+var cakenewpig = createNEWPIG();
+cakenewpig.position.set(0,1.75,0);
+cakenewpig.scale.set(0.3,0.3,0.3);
+cakeicingtop.add(cakenewpig);
+
+cake.position.set(0,-5,0);
+scene.add(cake);
+
+cake2O.rotation.y = Math.PI/3*3;
+cake2O.position.set(45,3,5);
+
+var newpig = createNEWPIG();
+newpig.position.set(60,-3,0);
+newpig.rotation.z = -Math.PI/2
+newpig.rotation.y = Math.PI/180*20;
+scene.add(newpig);
+
+var bigpig = threePig();
+bigpig.position.set(0,13,-52);
+bigpig.scale.set(3,3,3);
+bigpig.rotation.x = Math.PI/180*10;
+scene.add(bigpig);
+
+var flypig = createFLYPIG();
+flypig.position.set(-25,20,0);
+flypig.rotation.set(-Math.PI/180*50,Math.PI/2,Math.PI/180*50);
+scene.add(flypig);
+
+function out() {
+	if(!c) {
+		cakethebottom.geometry = cgeometryO;
+		cakethebottom.rotation.x = Math.PI/2
+		cake1.geometry = cgeometryO;
+		cake1.rotation.x = Math.PI/2;
+		cake2.geometry = cgeometryO;
+		cake2.rotation.x = Math.PI/2;
+		cake3.geometry = cgeometryO;
+		cake3.rotation.x = Math.PI/2;
+
+		cakeicing0.geometry = cigeometryO;
+		cakeicing0.rotation.x = Math.PI/2;
+		cakeicing1.geometry = cigeometryO;
+		cakeicing1.rotation.x = Math.PI/2;
+		cakeicing2.geometry = cigeometryO;
+		cakeicing2.rotation.x = Math.PI/2;
+		cakeicingBottom.geometry = cigeometryO;
+		cakeicingBottom.rotation.x = Math.PI/2;
+		cakeicingTop.geometry = cigeometryO;
+		cakeicingTop.rotation.x = Math.PI/2;
+
+		cake3.position.y+=1;
+		cakeicing2.position.y+=0.75;
+		cake2.position.y+=1;
+		cakeicing1.position.y+=0.75;
+		cake1.position.y+=1;
+		cakeicing0.position.y+=0.75;
+		cakeicingBottom.position.y+=0.75;
+		cakethebottom.position.y+=1;
+		cakeicingTop.position.y+=0.75;
+
+		caketoplayericing.geometry = ctlgeometryO;
+
+		ckring.geometry = cakeringO;
+		ckring.rotation.z = Math.PI/2;
+		ckring.add(cksphere);
+		ckring.add(cksphere1);
+
+		caketopcandles.children.length = 0;
+		addcandles(5,0,caketopcandles);
+
+		cakeicingstop.children.length = 0;
+		cakeicingsbottom.children.length = 0;
+		cdice(22,2,cakeicingstop,cakeicingsbottom);	
+
+		scene.add(cake2O);	
+	} else {
+		cakethebottom.geometry = cakebottom;
+		cakethebottom.rotation.x = 0
+		cake1.geometry = cakebottom;
+		cake1.rotation.x = 0;
+		cake2.geometry = cakebottom;
+		cake2.rotation.x = 0;
+		cake3.geometry = cakebottom;
+		cake3.rotation.x = 0;
+
+		cakeicing0.geometry = cakeicing;
+		cakeicing0.rotation.x = 0;
+		cakeicing1.geometry = cakeicing;
+		cakeicing1.rotation.x = 0;
+		cakeicing2.geometry = cakeicing;
+		cakeicing2.rotation.x = 0;
+		cakeicingBottom.geometry = cakeicing;
+		cakeicingBottom.rotation.x = 0;
+		cakeicingTop.geometry = cakeicing;
+		cakeicingTop.rotation.x = 0;
+
+		cake3.position.y-=1;
+		cakeicing2.position.y-=0.75;
+		cake2.position.y-=1;
+		cakeicing1.position.y-=0.75;
+		cake1.position.y-=1;
+		cakeicing0.position.y-=0.75;
+		cakeicingBottom.position.y-=0.75;
+		cakethebottom.position.y-=1;
+		cakeicingTop.position.y-=0.75;
+
+		caketoplayericing.geometry = ctlgeometry;
+
+		ckring.geometry = cakering;
+		ckring.rotation.z = 0;
+		ckring.children.length = 0;
+
+		caketopcandles.children.length = 0;
+		addcandles(6,0,caketopcandles);
+
+		cakeicingstop.children.length = 0;
+		cakeicingsbottom.children.length = 0;
+		cdice(26,0,cakeicingstop,cakeicingsbottom);
+
+		scene.remove(cake2O);
+	}
+	c = !c;
+}
+
+document.onkeydown = function(e) {
+	if(e.keyCode==76) {
+		if(l==0) {
+			hlight.intensity = 0;
+			l+=1;
+		} else if(l==1) {
+			light.intensity = 0;
+			l+=1;
+		} else if(l==2) {
+			hlight.intensity = 0.7; light.intensity = 0.4;
+			l=0;
+		}
+		render();
+	}
+	if(e.keyCode==67) {
+		out();
+		render();
+	}
+}
+
+var render = function() {
+	renderer.render(scene, camera);
+};
+render();
+</script>
+</body>
+<noscript>
+https://stackoverflow.com/questions/11826798/how-do-i-construct-a-hollow-cylinder-in-three-js
+https://stackoverflow.com/questions/26183062/shape-with-single-hole-probably-hole-outside-shape
+</noscript>
+</html>

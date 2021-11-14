@@ -9,14 +9,13 @@ body {
 main {
 	margin:10px;
 }
-.center {
-	text-align:center
-}
 .a {
+	text-indent: 50px;
 	font-size:18px
 }
-.indent {
-	text-indent:50px
+.c {
+	text-align:center;
+	font-size:18px;
 }
 #title {
 	margin-left:auto;
@@ -61,10 +60,43 @@ main {
 
 .sbutton {
 	font-size: 18px;
+	min-height:40px;
+	min-width:100px;
+	position:absolute;
 }
 
-.sbuttonred {
+.sbutton.red {
 	border: 2px solid #aa2222;
-	background: linear-gradient(#ffcccc, #ff7777);
+	background: linear-gradient(#ff7777, #ffcccc);
 	color: #aa2222;
+}
+
+.sbutton.red:hover {
+	border: 2px solid #cc4444;
+	background: linear-gradient(#ff9999, #ffdfdf);
+	color: #cc4444;
+}
+
+.sbutton.happy {
+	border: 2px solid #4477aa;
+	background: linear-gradient(#f0e5ff, #bbffff);
+	color: #4477aa;
+}
+
+.sbutton.happy:hover {
+	border: 2px solid #6699cc;
+	background: linear-gradient(#faf5ff, #ddffff);
+	color: #6699cc;
+}
+
+.sbutton.blue {
+	border: 2px solid #296bcf;
+	background: linear-gradient(#70adff, #d1e6ff);
+	color: #296bcf;
+}
+
+.sbutton.blue:hover {
+	border: 2px solid #5188db;
+	background: linear-gradient(#91c0ff, #e3f0ff);
+	color: #5188db;
 }

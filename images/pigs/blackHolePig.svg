@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="850">
+<rect x="0" y="0" width="800" height="850" fill="none"></rect>
+<circle cx="400" cy="450" r="400" fill="#112377"></circle>
+<path d="M 50 280 l 70 -280 l 100 120 z" fill="#112377"></path>
+<path d="M 750 280 l -70 -280 l -100 120 z" fill="#112377"></path>
+<symbol>
+<path id="spiral" d="M 0 0 c -120 -100 -300 -50 -352.7253173156913 6.579498025312233 c 50 -30 100 -30 142.24942951489194 -6.579498025312233 z"></path>
+</symbol>
+<g id="spiralcircle" fill="#11369a">
+<animateTransform attributeName="transform" attributeType="XML" type="rotate" from="0 400 450" to="-360 400 450" dur="10s" repeatCount="indefinite"></animateTransform>
+<circle cx="400" cy="450" r="275"></circle>
+<use href="#spiral" x="505.23794390039967" y="195.93312855939615"></use>
+<use href="#spiral" x="294.76205609960033" y="195.93312855939615" transform="rotate(-45 294.76205609960033 195.93312855939615)"></use>
+<use href="#spiral" x="145.93312855939615" y="344.76205609960033" transform="rotate(-90 145.93312855939615 344.76205609960033)"></use>
+<use href="#spiral" x="145.93312855939615" y="555.2379439003997" transform="rotate(-135 145.93312855939615 555.2379439003997)"></use>
+<use href="#spiral" x="294.76205609960033" y="704.0668714406038" transform="rotate(180 294.76205609960033 704.0668714406038)"></use>
+<use href="#spiral" x="505.23794390039967" y="704.0668714406038" transform="rotate(135 505.23794390039967 704.0668714406038)"></use>
+<use href="#spiral" x="654.0668714406038" y="555.2379439003997" transform="rotate(90 654.0668714406038 555.2379439003997)"></use>
+<use href="#spiral" x="654.0668714406038" y="344.76205609960033" transform="rotate(45 654.0668714406038 344.76205609960033)"></use>
+</g>
+<circle cx="400" cy="450" r="220" fill="#1358a4"></circle>
+<circle cx="400" cy="450" r="170" fill="#4598da"></circle>
+<circle cx="400" cy="450" r="155" fill="#ffffff"></circle>
+<circle cx="400" cy="450" r="145" fill="#000000"></circle>
+<ellipse cx="400" cy="230" rx="90" ry="45" fill="#ffffff"></ellipse>
+<circle cx="255" cy="155" r="65" fill="#ffffff"></circle>
+<circle cx="545" cy="155" r="65" fill="#ffffff"></circle>
+<ellipse cx="260" cy="137" rx="40" ry="45" fill="#112377"></ellipse>
+<ellipse cx="547" cy="137" rx="40" ry="45" fill="#112377"></ellipse>
+<rect x="355" y="200" width="10" height="50" fill="#112377"></rect>
+<rect x="435" y="200" width="10" height="50" fill="#112377"></rect>
+<note>a = 350/sqrt(2). xleft 400-a, xright 400+a, yup 450-a, ydown 450+a. xup = 152.51262658470839, xright = 647.4873734152916, yup = 202.51262658470839, ydown = 697.4873734152916</note>
+<note>a = tau/16. 275*cos(tau/16) and 275*sin(tau/16)</note>
+<points>
+<circle r="5" fill="red" cx="400" cy="100"></circle>
+<circle r="5" fill="orange" cx="152.51262658470839" cy="202.51262658470839"></circle>
+<circle r="5" fill="yellow" cx="50" cy="450"></circle>
+<circle r="5" fill="green" cx="152.51262658470839" cy="697.4873734152916"></circle>
+<circle r="5" fill="white" cx="400" cy="800"></circle>
+<circle r="5" fill="pink" cx="647.4873734152916" cy="697.4873734152916"></circle>
+<circle r="5" fill="black" cx="750" cy="450"></circle>
+<circle r="5" fill="cyan" cx="647.4873734152916" cy="202.51262658470839"></circle>
+<circle cx="400" cy="450" r="275" fill="none" stroke="white"></circle>
+<circle r="5" fill="cyan" stroke="red" cx="505.23794390039967" cy="195.93312855939615"></circle>
+<circle r="5" fill="black" stroke="cyan" cx="654.0668714406038" cy="344.76205609960033"></circle>
+<circle r="5" fill="black" stroke="pink" cx="654.0668714406038" cy="555.2379439003997"></circle>
+<circle r="5" fill="white" stroke="pink" cx="505.23794390039967" cy="704.0668714406038"></circle>
+<circle r="5" fill="green" stroke="white" cx="294.76205609960033" cy="704.0668714406038"></circle>
+<circle r="5" fill="yellow" stroke="green" cx="145.93312855939615" cy="555.2379439003997"></circle>
+<circle r="5" fill="orange" stroke="yellow" cx="145.93312855939615" cy="344.76205609960033"></circle>
+<circle r="5" fill="red" stroke="orange" cx="294.76205609960033" cy="195.93312855939615"></circle>
+</points>
+</svg>
