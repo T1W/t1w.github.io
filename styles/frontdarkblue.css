@@ -201,7 +201,7 @@ footer {
 }
 
 .bottom {
-	max-width: 500px;
+	max-width: 650px;
 	color: white;
 	margin: auto;
 	text-align: center;
@@ -221,7 +221,7 @@ footer {
 
 .bottom span {
 	display: inline-block;
-	line-height: 100px;
+	line-height: 50px;
 	vertical-align: top;
 }
 
@@ -231,10 +231,15 @@ footer {
 	text-align:center;
 	font-family:sans-serif;
 	line-height: 40px;
-	width: calc(50% - 10px);
+	width: calc(50% - 8px);
 	background: linear-gradient(#ffffff , #e0e0e0);
 	border-color: #555555;
 	color: #555555;
+	margin-right: 8px;
+}
+
+.tab:last-of-type {
+	margin-right: 0px;
 }
 
 .tab:hover {

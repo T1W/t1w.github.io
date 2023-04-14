@@ -90,13 +90,24 @@ main {
 }
 
 .sbutton.blue {
-	border: 2px solid #296bcf;
+	border: 2px solid #1554b3;
 	background: linear-gradient(#70adff, #d1e6ff);
-	color: #296bcf;
+	color: #1554b3;
 }
 
 .sbutton.blue:hover {
 	border: 2px solid #5188db;
 	background: linear-gradient(#91c0ff, #e3f0ff);
 	color: #5188db;
+}
+.sbutton.darkpurple {
+	border: 2px solid #0b092e;
+	background: linear-gradient(#1f1866, #8c6cc4);
+	color: white;
+}
+
+.sbutton.darkpurple:hover {
+	border: 2px solid #363182;
+	background: linear-gradient(#483fa1, #b49be0);
+	color: white;
 }
