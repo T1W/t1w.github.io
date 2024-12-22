@@ -1,0 +1,58 @@
+html {
+	background-color: #e5ffeb;
+}
+
+#christmas {
+	width:90%;
+	box-sizing:border-box;
+	max-width:1000px;
+	border:5px ridge #e65454;
+	padding: 20px 50px;
+	background: linear-gradient(150deg, #ccf8ff, #fff, #d8faff, #fff);
+}
+
+.hrred {
+	color:#e65454;
+}
+
+h1 {
+	color:#28763a
+}
+
+h1:nth-of-type(2n), main a {
+	color:#d20000;
+}
+
+#banner {
+	background-image: url(../images/aspiondbannerchristmas.png);
+}
+
+#top {
+	background-image: url(../images/aspiondbannerchristmaspart.png);
+}
+
+h1::before,
+h1::after {
+	content:"";
+	width:40px;
+	height:40px;
+	display:inline-block;
+	background-image:url(../images/christmasstar1.svg);
+	background-size:contain;
+	vertical-align:bottom;
+	margin: 0px 5px;
+}
+
+h1:nth-of-type(2n)::before,
+h1:nth-of-type(2n)::after {
+	background-image:url(../images/christmasstar2.svg);
+}
+
+main a {
+	text-decoration-color:#006c19;
+}
+
+main a:visited {
+	color:#4446bf;
+	text-decoration-color:#4446bf;
+}

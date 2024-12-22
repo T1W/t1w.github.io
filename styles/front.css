@@ -9,6 +9,10 @@ body {
 main {
 	margin:10px;
 }
+#bottom {
+	margin-bottom:10px;
+	height:100px;
+}
 .a {
 	text-indent: 50px;
 	font-size:18px
@@ -49,7 +53,8 @@ main {
 	font-size:1rem;
 	display:inline-block;
 	min-width:140px;
-	padding:1px;
+	padding:1px 10px;
+	box-sizing: border-box;
 }
 .horizlist a:hover {
 	background-color:#c82121;
@@ -90,9 +95,9 @@ main {
 }
 
 .sbutton.blue {
-	border: 2px solid #1554b3;
+	border: 2px solid #296bcf;
 	background: linear-gradient(#70adff, #d1e6ff);
-	color: #1554b3;
+	color: #296bcf;
 }
 
 .sbutton.blue:hover {
