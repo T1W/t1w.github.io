@@ -9,6 +9,9 @@ body {
 main {
 	margin:10px;
 }
+h1 {
+	color:#cf1616;
+}
 #bottom {
 	margin-bottom:10px;
 	height:100px;

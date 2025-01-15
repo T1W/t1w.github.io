@@ -1,0 +1,118 @@
+@charset "UTF-8";
+
+html {
+	background-color:#fedcdc
+}
+body {
+	margin:0px;
+}
+main {
+	margin:10px;
+}
+#bottom {
+	margin-bottom:10px;
+	height:100px;
+}
+.a {
+	text-indent: 50px;
+	font-size:18px
+}
+.c {
+	text-align:center;
+	font-size:18px;
+}
+#title {
+	margin-left:auto;
+	margin-right:auto;
+	display:block;
+	margin-bottom: 5px;
+}
+#top {
+	height: 150px;
+	background-image: url(../images/aspiondbannerpart.png);
+	background-position: center;
+	background-size: auto 100%;
+	background-repeat: repeat-x;
+}
+#banner {
+	height: 150px;
+	background-image: url(../images/aspiondbanner.png);
+	background-position: center;
+	background-size: auto 100%;
+	background-repeat: no-repeat;
+}
+.horizlist {
+	width:100%;
+	background-color:#e65454;
+	text-align:center;
+	font-size:0;
+}
+.horizlist a {
+	color:white;
+	text-decoration:none;
+	font-size:1rem;
+	display:inline-block;
+	min-width:140px;
+	padding:1px 10px;
+	box-sizing: border-box;
+}
+.horizlist a:hover {
+	background-color:#c82121;
+}
+.hrred {
+	color:#ffaaaa;
+}
+
+.sbutton {
+	font-size: 18px;
+	min-height:40px;
+	min-width:100px;
+	position:absolute;
+}
+
+.sbutton.red {
+	border: 2px solid #aa2222;
+	background: linear-gradient(#ff7777, #ffcccc);
+	color: #aa2222;
+}
+
+.sbutton.red:hover {
+	border: 2px solid #cc4444;
+	background: linear-gradient(#ff9999, #ffdfdf);
+	color: #cc4444;
+}
+
+.sbutton.happy {
+	border: 2px solid #4477aa;
+	background: linear-gradient(#f0e5ff, #bbffff);
+	color: #4477aa;
+}
+
+.sbutton.happy:hover {
+	border: 2px solid #6699cc;
+	background: linear-gradient(#faf5ff, #ddffff);
+	color: #6699cc;
+}
+
+.sbutton.blue {
+	border: 2px solid #296bcf;
+	background: linear-gradient(#70adff, #d1e6ff);
+	color: #296bcf;
+}
+
+.sbutton.blue:hover {
+	border: 2px solid #5188db;
+	background: linear-gradient(#91c0ff, #e3f0ff);
+	color: #5188db;
+}
+.sbutton.darkpurple {
+	border: 2px solid #0b092e;
+	background: linear-gradient(#1f1866, #8c6cc4);
+	color: white;
+}
+
+.sbutton.darkpurple:hover {
+	border: 2px solid #363182;
+	background: linear-gradient(#483fa1, #b49be0);
+	color: white;
+}
