@@ -36,7 +36,7 @@ var chocolateOffsetX = 10;
 var chocolateOffsetY = 10;
 
 var scrollTimer = -1;
-var scrollMouseY= -1;
+var scrollMouseY = -1;
 
 const chocolates = document.querySelectorAll(".chocolate");
 const piggies = document.querySelectorAll(".piggy");
@@ -132,7 +132,7 @@ function changeDragChocolate(chocolateType) {
 	chocolateToEat.src = image;
 }
 
-function moveChocolate(event) {
+function moveChocolate(event) {	
 	let pixelsLeft = event.clientX - chocolateOffsetX;
 	let pixelsTop = event.clientY - chocolateOffsetY;
 	moveChocolateTo(pixelsLeft, pixelsTop);
@@ -283,7 +283,7 @@ for(let i = 0; i<piggies.length; i++) {
 
 for(let i = 0; i<chocolates.length; i++) {
 	let chocolate = chocolates[i];
-	chocolate.addEventListener("mousedown", (event) => {
+	chocolate.addEventListener("pointerdown", (event) => {
 		event.preventDefault();
 		
 		let chocolateType = event.target.dataset.type;
@@ -298,12 +298,12 @@ for(let i = 0; i<chocolates.length; i++) {
 
 		moveChocolateTo(event.clientX - chocolateOffsetX, event.clientY - chocolateOffsetY);
 		
-		window.addEventListener("mousemove", moveChocolate);
+		window.addEventListener("pointermove", moveChocolate);
 	});
 }
 
-window.addEventListener("mouseup", (event) => {
-	window.removeEventListener("mousemove", moveChocolate);
+function endDraggingChocolate(event) {
+	window.removeEventListener("pointermove", moveChocolate);
 	clearInterval(scrollTimer);
 	
 	if(!isDraggingChocolate) {
@@ -330,4 +330,13 @@ window.addEventListener("mouseup", (event) => {
 	if(foundPiggy) {
 		piggyReact(piggy, true);
 	}
-});
+}
+
+window.addEventListener("pointerup", endDraggingChocolate);
+window.addEventListener("pointercancel", endDraggingChocolate);
+
+window.addEventListener("touchmove", (event) => {
+	if(isDraggingChocolate) {
+		event.preventDefault();
+	}
+}, {passive: false});
