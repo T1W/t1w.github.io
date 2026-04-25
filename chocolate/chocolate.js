@@ -152,7 +152,7 @@ function scrollIfNearEdge(mouseY, pointerType) {
 	let windowHeight = window.innerHeight;
 	let edgeWidth = 25;
 	
-	if (pointerType == "touch") {
+	if(pointerType == "touch") {
 		edgeWidth = 55;
 	}
 	
@@ -164,17 +164,22 @@ function scrollIfNearEdge(mouseY, pointerType) {
 		edgeWidth = 0;
 	}
 	
-	let upperbound = edgeWidth;
+	let upperBound = edgeWidth;
 	let lowerBound = window.innerHeight - edgeWidth;
 	
-	if(mouseY > upperbound && mouseY < lowerBound || scrollMouseY != mouseY) {
+	if(pointerType == "touch") {
+		scrollIfNearEdgeTouchscreen(mouseY, upperBound, lowerBound);
+		return;
+	}
+	
+	if(mouseY > upperBound && mouseY < lowerBound || scrollMouseY != mouseY) {
 		clearInterval(scrollTimer);
 		scrollTimer = -1;
 	}
 	
-	if(mouseY < upperbound && scrollTimer == -1) {
+	if(mouseY < upperBound && scrollTimer == -1) {
 		scrollTimer = setInterval(function() {
-			window.scrollBy(0, -(upperbound - mouseY));
+			window.scrollBy(0, -(upperBound - mouseY));
 		}, 10);
 	} else if(mouseY > lowerBound && scrollTimer == -1) {
 		scrollTimer = setInterval(function() {
@@ -183,6 +188,14 @@ function scrollIfNearEdge(mouseY, pointerType) {
 	}
 	
 	scrollMouseY = mouseY;
+}
+
+function scrollIfNearEdgeTouchscreen(mouseY, upperBound, lowerBound) {
+	if(mouseY < upperBound) {
+		window.scrollBy(0, -10);
+	} else if(mouseY > lowerBound) {
+		window.scrollBy(0, 10);
+	}
 }
 
 function piggyReact(piggy, ateChocolate) {
