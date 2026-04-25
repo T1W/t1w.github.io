@@ -137,7 +137,7 @@ function moveChocolate(event) {
 	let pixelsTop = event.clientY - chocolateOffsetY;
 	moveChocolateTo(pixelsLeft, pixelsTop);
 	
-	scrollIfNearEdge(event.clientY);
+	scrollIfNearEdge(event.clientY, event.pointerType);
 }
 
 function moveChocolateTo(x, y) {
@@ -147,14 +147,19 @@ function moveChocolateTo(x, y) {
 
 /* https://www.bennadel.com/blog/3460-automatically-scroll-the-window-when-the-user-approaches-the-viewport-edge-in-javascript.htm */
 
-function scrollIfNearEdge(mouseY) {
+function scrollIfNearEdge(mouseY, pointerType) {
 	
 	let windowHeight = window.innerHeight;
 	let edgeWidth = 25;
 	
-	if(windowHeight <= 50) {
+	if (pointerType == "touch") {
+		edgeWidth = 55;
+	}
+	
+	if(windowHeight <= edgeWidth*2) {
 		edgeWidth = Math.floor(windowHeight/2)-5;
 	}
+	
 	if(windowHeight <= 5) {
 		edgeWidth = 0;
 	}
